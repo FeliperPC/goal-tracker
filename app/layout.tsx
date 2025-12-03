@@ -30,7 +30,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${mainrope.className} antialiased`}
+        className={`${mainrope.className} antialiased p-2`}
       >
         {children}
       </body>

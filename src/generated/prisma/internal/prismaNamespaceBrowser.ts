@@ -72,6 +72,7 @@ export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof
 export const GoalScalarFieldEnum = {
   id: 'id',
   name: 'name',
+  description: 'description',
   status: 'status',
   createdAt: 'createdAt'
 } as const
