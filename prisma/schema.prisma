@@ -18,6 +18,7 @@ model Goal {
   id        Int      @id @default(autoincrement())
   name      String
   tasks Task[]
+  description String
   status Status
   createdAt DateTime @default(now())
 }
