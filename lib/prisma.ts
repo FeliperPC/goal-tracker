@@ -1,4 +1,4 @@
-import { PrismaClient } from "../app/generated/prisma/client"
+import { PrismaClient } from "@/src/generated/prisma/client"
 
 // it allows keep a single prisma instance in a constant
 const globalForPrisma = global as unknown as { prisma: PrismaClient };
