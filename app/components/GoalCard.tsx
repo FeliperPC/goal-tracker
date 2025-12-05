@@ -36,18 +36,24 @@ export default function GoalCard({ goal }: { goal: Goal }) {
           )}
         </div>
       )}
-      {showTasks && (
+      <AnimatePresence>
         <motion.div
-          initial={{height:0}}
+          key={Number(showTasks)}
+          initial={{height:0, opacity:100}}
           animate={{
             height: "auto",
           }}
+          exit={{
+            height: "0px",
+            opacity:0,
+          }}
+          className={`${showTasks ? 'block':'hidden'} flex flex-col gap-2`}
         >
           {goal.tasks?.map((task:Task)=>(
             <TaskItem task={task} key={task.id} />
           ))}
         </motion.div>
-      )}
+      </AnimatePresence>
     </div>
   );
 }
