@@ -7,18 +7,20 @@ export type Quote ={
 export type Goal = {
     id: number,
     name: string,
-    tasks?: Task[],
+    tasks: Task[],
     description: string,
-    status: string,
-    createdAt: string
+    status: Status,
+    createdAt: Date
 }
+
+export type Status = "TODO" | "DONE";
 
 export type Task = {
   id: number;
   name: string;
   goalId: number;
   createdAt: Date;
-  status: "TODO" | "DONE"
+  status: Status
 };
 
 export type GoalsProgress = {

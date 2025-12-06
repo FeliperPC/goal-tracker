@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { prisma } from '../../../lib/prisma'
+import { prisma } from '../../../../lib/prisma'
 import { updateGoalSchema } from '@/app/(core)/schemas/goal.schema'
 import { ZodError } from 'zod'
 

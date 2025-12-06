@@ -1,6 +1,6 @@
 import { ZodError } from 'zod'
-import { createGoalSchema } from '../(core)/schemas/goal.schema'
-import {prisma} from '../../lib/prisma'
+import { createGoalSchema } from '../../(core)/schemas/goal.schema'
+import {prisma} from '../../../lib/prisma'
 import { NextResponse } from 'next/server'
 
 export async function POST(request : Request){

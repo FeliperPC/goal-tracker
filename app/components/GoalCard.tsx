@@ -1,11 +1,14 @@
+'use client'
+
 import { Goal, Task } from "@/types/types";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
-import TaskItem from "./TaskItem";
+import GoalTask from "./GoalTask";
 
 export default function GoalCard({ goal }: { goal: Goal }) {
   const [showTasks, setShowTasks] = useState(false);
+
   return (
     <div className="flex flex-col border border-slate-300 px-4 py-4 bg-slate-100/50 rounded-xl shadow text-lg gap-3 justify-start">
       <header>
@@ -29,11 +32,7 @@ export default function GoalCard({ goal }: { goal: Goal }) {
       </header>
       {goal.status == "TODO" && (
         <div>
-          {goal.id % 2 ? (
-            <div className="py-2 bg-[var(--primary)] h-2 rounded-2xl"></div>
-          ) : (
-            <div className="py-2 border border-slate-400 h-2 rounded-2xl"></div>
-          )}
+          <div className="py-2 border border-slate-400 h-2 rounded-2xl"></div>
         </div>
       )}
       <AnimatePresence>
@@ -47,11 +46,9 @@ export default function GoalCard({ goal }: { goal: Goal }) {
             height: "0px",
             opacity:0,
           }}
-          className={`${showTasks ? 'block':'hidden'} flex flex-col gap-2`}
+          className={`${showTasks ? 'block':'hidden'}`}
         >
-          {goal.tasks?.map((task:Task)=>(
-            <TaskItem task={task} key={task.id} />
-          ))}
+          <GoalTask tasks={goal.tasks} />
         </motion.div>
       </AnimatePresence>
     </div>

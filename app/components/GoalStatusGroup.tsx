@@ -1,4 +1,4 @@
-import { Goal, Task } from "@/types/types";
+import { Goal } from "@/types/types";
 
 export default function GoalStatusGroup({goals}:{goals:Goal[]}){
   const goalStatus = {

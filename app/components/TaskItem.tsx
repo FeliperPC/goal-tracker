@@ -1,36 +1,41 @@
-import { Task } from "@/types/types";
-import { Check, Circle, CircleCheck } from "lucide-react";
+import { Status, Task } from "@/types/types";
+import { Check } from "lucide-react";
 import { useState } from "react";
 
-export default function TaskItem({ task }: { task: Task }) {
-  const [status, setStatus] = useState("TODO");
+export default function TaskItem({
+  task,
+  onChangeTaskStatus
+}: {
+  task: Task;
+  onChangeTaskStatus:(taskId:number, value:Status)=>Promise<Task|null>
+}) {
+  const [goalTask, setGoalTask]= useState(task)
 
-  function changeStatus() {
-    if (status === "TODO") {
-      setStatus("DONE");
-      return;
+  async function handleChange(){
+    const task = goalTask.status=='TODO' ? await onChangeTaskStatus(goalTask.id, 'DONE') : await onChangeTaskStatus(goalTask.id, 'TODO')
+    if(task){
+      setGoalTask(task)
     }
-    setStatus("TODO");
   }
 
   return (
     <div className="flex gap-2 items-center">
       <button
         className={`${
-          status == "DONE"
+          goalTask.status == "DONE"
             ? "bg-[var(--secondary)]"
             : "border border-gray-700/50"
         } rounded-[100%] w-5 h-5 flex items-center justify-center`}
-        onClick={changeStatus}
+        onClick={handleChange}
       >
-        {status == "DONE" && <Check size={12} color="white" />}
+        {goalTask.status == "DONE" && <Check size={12} color="white" />}
       </button>
       <p
         className={`${
-          status == "DONE" && "line-through"
+          goalTask.status == "DONE" && "line-through"
         } text-sm text-gray-800`}
       >
-        {task.name}
+        {goalTask.name}
       </p>
     </div>
   );
