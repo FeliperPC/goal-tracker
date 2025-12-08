@@ -3,11 +3,12 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronUp, ChevronDown } from "lucide-react";
 import GoalTask from "./GoalTask";
-import { Goal } from "@/types/types";
+import { Goal, Task } from "@/types/types";
 import { useState } from "react";
 
 export function GoalCard({goal}:{goal:Goal}){
   const [showTasks, setShowTasks] = useState(false);
+  const doneTasks = goal.tasks.filter((task:Task)=>task.status=='DONE').length
   return (
     <div className="flex flex-col border border-slate-300 px-4 py-4 bg-slate-100/50 rounded-xl shadow text-lg gap-3 justify-start" key={goal.id}>
             <header>
@@ -40,6 +41,7 @@ export function GoalCard({goal}:{goal:Goal}){
             {goal.status == "TODO" && (
               <div>
                 <div className="py-2 border border-slate-400 h-2 rounded-2xl"></div>
+                {doneTasks}
               </div>
             )}
             <AnimatePresence>
