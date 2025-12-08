@@ -24,15 +24,20 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  goals,
 }: Readonly<{
   children: React.ReactNode;
+  goals : React.ReactNode
 }>) {
   return (
     <html lang="en">
       <body
         className={`${mainrope.className} antialiased p-2`}
       >
+      <div className="flex flex-col gap-4">
         {children}
+        {goals}
+      </div>
       </body>
     </html>
   );
