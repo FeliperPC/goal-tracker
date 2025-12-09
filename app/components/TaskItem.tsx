@@ -7,9 +7,11 @@ import { useGlobalStore } from "../(store)/useGlobalStore";
 export default function TaskItem({
   task,
   onChangeTaskStatus,
+  goalStatus,
 }: {
   task: Task;
   onChangeTaskStatus: (taskId: number, value: Status) => Promise<Task | null>;
+  goalStatus: string;
 }) {
   const [goalTask, setGoalTask] = useState(task);
   const [isLoading, setIsLoading] = useState(false);
@@ -31,29 +33,31 @@ export default function TaskItem({
   return (
     <div className="flex gap-2 items-center relative">
       <button
+        disabled={goalStatus == "DONE"}
         className={`${
           goalTask.status == "DONE"
             ? "bg-[var(--secondary)]"
             : "border border-gray-700/50"
-        } rounded-[100%] w-5 h-5 flex items-center justify-center`}
+        } rounded-[100%] w-5 h-5 flex items-center justify-center disabled:bg-[var(--primary)]/40`}
         onClick={handleChange}
       >
         {goalTask.status == "DONE" && <Check size={12} color="white" />}
       </button>
       <p
-        className={`${
-          goalTask.status == "DONE" && "line-through"
-        } text-sm text-gray-800`}
+        className={`
+        ${goalTask.status === "DONE" ? "line-through" : "text-gray-800"}
+        ${goalStatus === "DONE" ? "text-gray-400 line-through" : "text-gray-800"}
+        text-sm`}
       >
         {goalTask.name}
       </p>
-      {isLoading ?
+      {isLoading ? (
         <div className="absolute right-0">
           <LoadingSpinner />
         </div>
-        :
-        ''
-      }
+      ) : (
+        ""
+      )}
     </div>
   );
 }

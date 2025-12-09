@@ -9,7 +9,6 @@ export async function getGoals() {
 }
 
 export async function changeTaskStatus(taskId:number, value:Status){
-  await new Promise(resolve=>setTimeout(resolve,5000))
   const data = {
     status:value
   }
