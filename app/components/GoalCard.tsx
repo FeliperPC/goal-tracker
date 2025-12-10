@@ -11,12 +11,12 @@ export function GoalCard({ goal }: { goal: Goal }) {
   const [taskBarProgress, setTaskBarProgress] = useState(0);
 
   useEffect(() => {
-    const goalTasksDone = goal.tasks.filter(
+    const goalTasksDoneLength = goal.tasks.filter(
       (task: Task) => task.status === "DONE"
     ).length;
 
     const percentage = goal.tasks.length
-      ? Math.floor((goalTasksDone * 100) / goal.tasks.length)
+      ? Math.floor((goalTasksDoneLength * 100) / goal.tasks.length)
       : 0;
 
     setTaskBarProgress(percentage);
