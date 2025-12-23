@@ -1,21 +1,13 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Manrope } from "next/font/google";
+import { Manrope } from "next/font/google";
 import "./globals.css";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import HeaderComponent from "./components/HeaderComponent";
+import { ClerkProvider } from "@clerk/nextjs";
 
 const mainrope = Manrope({
-  variable:"--font-manrope-sans",
-  subsets:['latin']
-})
+  variable: "--font-manrope-sans",
+  subsets: ["latin"],
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -27,18 +19,19 @@ export default function RootLayout({
   goals,
 }: Readonly<{
   children: React.ReactNode;
-  goals : React.ReactNode
+  goals: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${mainrope.className} antialiased p-2`}
-      >
-      <div className="flex flex-col gap-4">
-        {children}
-        {goals}
-      </div>
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en">
+        <body className={`${mainrope.className} antialiased p-2`}>
+          <div className="flex flex-col gap-4">
+            <HeaderComponent />
+            {children}
+            {goals}
+          </div>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }

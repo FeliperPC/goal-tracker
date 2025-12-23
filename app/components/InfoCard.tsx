@@ -1,3 +1,4 @@
+"use cache"
 import { Quote } from "@/types/types"
 import { dateInfo } from "../utils/callendarInfo";
 

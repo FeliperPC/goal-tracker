@@ -2,7 +2,6 @@ import { Plus } from "lucide-react";
 import { getGoals } from "./actions";
 import GoalListViewControl from "./components/GoalListViewControl";
 import GoalStatusGroup from "./components/GoalStatusGroup";
-import HeaderComponent from "./components/HeaderComponent";
 import InfoCard from "./components/InfoCard";
 
 
@@ -13,7 +12,6 @@ export default async function Todo(){
    }
    return (
      <div className="flex flex-col gap-4">
-       <HeaderComponent />
        <InfoCard />
        <GoalStatusGroup goals={goals} />
        <GoalListViewControl />

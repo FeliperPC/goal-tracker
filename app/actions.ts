@@ -1,5 +1,5 @@
 "use server";
-import { prisma } from "../lib/prisma";
+import prisma from "@/lib/prisma";
 import { Status, Task } from "@/types/types";
 
 export async function getGoals() {
