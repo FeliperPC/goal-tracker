@@ -15,24 +15,34 @@ datasource db {
 }
 
 model Goal {
-  id        Int      @id @default(autoincrement())
-  name      String
-  tasks Task[]
+  id          Int      @id @default(autoincrement())
+  name        String
+  tasks       Task[]
   description String
-  status Status
-  createdAt DateTime @default(now())
+  status      Status
+  createdAt   DateTime @default(now())
+  userId      Int
+  user        User     @relation(fields: [userId], references: [id])
 }
 
 model Task {
   id        Int      @id @default(autoincrement())
   name      String
-  goalId Int
-  goal Goal @relation(fields: [goalId], references: [id])
+  goalId    Int
+  goal      Goal     @relation(fields: [goalId], references: [id])
   createdAt DateTime @default(now())
-  status Status
+  status    Status
 }
 
-enum Status{
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String
+  createdAt DateTime @default(now())
+  goals     Goal[]
+}
+
+enum Status {
   TODO
   DONE
 }
