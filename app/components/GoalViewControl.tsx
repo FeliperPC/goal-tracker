@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-export default function GoalListViewControl() {
+export default function GoalViewControl() {
   const pathname = usePathname();
   const currentFilter = pathname.split("/").pop();
 

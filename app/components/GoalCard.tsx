@@ -5,7 +5,6 @@ import { ChevronUp, ChevronDown } from "lucide-react";
 import GoalTask from "./GoalTask";
 import { Goal, Task } from "@/types/types";
 import { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
 
 export function GoalCard({ goal }: { goal: Goal }) {
   const [showTasks, setShowTasks] = useState(false);
@@ -21,7 +20,7 @@ export function GoalCard({ goal }: { goal: Goal }) {
       : 0;
 
     setTaskBarProgress(percentage);
-  }, [goal.tasks]);
+  }, [goal]);
 
   return (
     <div

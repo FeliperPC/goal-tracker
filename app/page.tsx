@@ -1,4 +1,4 @@
-import GoalListViewControl from "./components/GoalListViewControl";
+import GoalViewControl from "./components/GoalViewControl";
 import GoalStatusGroup from "./components/GoalStatusGroup";
 import InfoCard from "./components/InfoCard";
 import { Suspense } from "react";
@@ -10,7 +10,7 @@ export default async function Todo() {
       <Suspense fallback={<div>Loading goals overview...</div>}>
         <GoalStatusGroup />
       </Suspense>
-      <GoalListViewControl />
+      <GoalViewControl />
     </div>
   );
 }
