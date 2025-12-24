@@ -6,6 +6,7 @@ import {
   UserButton,
 } from "@clerk/nextjs";
 import Image from "next/image";
+import { Suspense } from "react";
 
 export default function HeaderComponent() {
   return (
@@ -16,17 +17,25 @@ export default function HeaderComponent() {
         width={100}
         height={100}
       ></Image>
-      <SignedOut>
-        <SignInButton />
-        <SignUpButton>
-          <button className="bg-[#6c47ff] text-ceramic-white rounded-full font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 cursor-pointer">
-            Sign Up
-          </button>
-        </SignUpButton>
-      </SignedOut>
-      <SignedIn>
-        <UserButton />
-      </SignedIn>
+      <Suspense>
+        <div className="flex gap-2">
+          <SignedOut>
+            <SignInButton>
+              <button type="button" className="bg-ceramic-white text-(--secondary) rounded-full font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 border border-(--secondary) shadow-lg">
+                Sing in
+              </button>
+            </SignInButton>
+            <SignUpButton>
+              <button type="button" className="bg-(--secondary) text-slate-100 rounded-full font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 shadow-lg">
+                Sign Up
+              </button>
+            </SignUpButton>
+          </SignedOut>
+        </div>
+        <SignedIn>
+          <UserButton />
+        </SignedIn>
+      </Suspense>
     </header>
   );
 }

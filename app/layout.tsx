@@ -3,6 +3,7 @@ import { Manrope } from "next/font/google";
 import "./globals.css";
 import HeaderComponent from "./components/HeaderComponent";
 import { ClerkProvider } from "@clerk/nextjs";
+import { Plus } from "lucide-react";
 
 const mainrope = Manrope({
   variable: "--font-manrope-sans",
@@ -24,11 +25,22 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className={`${mainrope.className} antialiased p-2`}>
-          <div className="flex flex-col gap-4">
+        <body className={`${mainrope.className} antialiased h-screen`}>
+          <div className="flex flex-col gap-4 py-2">
             <HeaderComponent />
             {children}
             {goals}
+          </div>
+          <div className="fixed flex items-center justify-center bottom-0 h-20 w-full z-50 bg-slate-100/95 backdrop:blur supports-backdrop-filter:bg-slate-100/60">
+            <div className="px-2 flex items-center flex-col gap-4  w-full">
+              <button
+                type="button"
+                className="bg-(--secondary) flex items-center gap-2 text-slate-200 font-semibold text-lg rounded-xl w-full h-10 justify-center shadow-2xl"
+              >
+                <Plus className="size-5" />
+                Add new goal
+              </button>
+            </div>
           </div>
         </body>
       </html>

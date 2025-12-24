@@ -1,12 +1,7 @@
 "use server";
 import prisma from "@/lib/prisma";
 import { Status, Task } from "@/types/types";
-
-export async function getGoals() {
-  return await prisma.goal.findMany({
-    include: { tasks: true },
-  });
-}
+import { revalidatePath } from "next/cache";
 
 export async function updateGoal(taskId: number, value: Status) {
   const data = {
@@ -29,6 +24,7 @@ export async function updateGoal(taskId: number, value: Status) {
     return await getGoalUpdated(taskOnUpdate);
   }
 
+  revalidatePath("/")
   return await prisma.goal.findFirst({
     where: {
       id: taskOnUpdate.goalId,

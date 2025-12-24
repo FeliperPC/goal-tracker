@@ -1,11 +1,13 @@
-import GlobalProvider from "../(core)/schemas/provider/GlobalProvider";
-import { getGoals } from "../actions";
+import { Suspense } from "react";
 
-export default async function Layout({children}:{children:React.ReactNode}){
-  const goals = await getGoals()
+export default async function Layout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <GlobalProvider goals={goals}>
-      {children}
-    </GlobalProvider>
-  )
+    <Suspense>
+      <div className="px-2">{children}</div>
+    </Suspense>
+  );
 }

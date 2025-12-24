@@ -1,6 +1,8 @@
+import { getAllGoals } from "@/lib/goal/goal-select";
 import { Goal } from "@/types/types";
 
-export default function GoalStatusGroup({goals}:{goals:Goal[]}){
+export default async function GoalStatusGroup(){
+  const goals = await getAllGoals()
   const goalStatus = {
     done: 0,
     todo: 0

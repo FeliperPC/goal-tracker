@@ -1,6 +1,6 @@
 import { Goal, Status, Task } from "@/types/types";
 import TaskItem from "./TaskItem";
-import { updateGoal } from "../actions";
+import { updateGoal } from "../../lib/goal/goal-actions";
 
 export default function GoalTask({ tasks, goalStatus }: { tasks: Task[]; goalStatus:string }) {
   async function hanldeChangeStatus(taskId:number, value:Status) {
