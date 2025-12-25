@@ -2,25 +2,29 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronUp, ChevronDown } from "lucide-react";
-import GoalTask from "./GoalTask";
 import { Goal, Task } from "@/types/types";
-import { useEffect, useState } from "react";
+import { useMemo, useOptimistic, useState } from "react";
+import TaskItem from "./TaskItem";
 
 export function GoalCard({ goal }: { goal: Goal }) {
   const [showTasks, setShowTasks] = useState(false);
-  const [taskBarProgress, setTaskBarProgress] = useState(0);
+  const [optimisticState, addOptimistic] = useOptimistic(
+    calculateProgress(),
+    ()=>calculateProgress()
+  );
 
-  useEffect(() => {
-    const goalTasksDoneLength = goal.tasks.filter(
+  const taskBarProgress = useMemo(() => {
+    return calculateProgress()
+  }, [optimisticState]);
+
+  function calculateProgress() {
+    const tasksDoneQnty = goal.tasks.filter(
       (task: Task) => task.status === "DONE"
     ).length;
-
-    const percentage = goal.tasks.length
-      ? Math.floor((goalTasksDoneLength * 100) / goal.tasks.length)
+    return goal.tasks.length
+      ? Math.floor((tasksDoneQnty * 100) / goal.tasks.length)
       : 0;
-
-    setTaskBarProgress(percentage);
-  }, [goal]);
+  }
 
   return (
     <div
@@ -61,7 +65,7 @@ export function GoalCard({ goal }: { goal: Goal }) {
               <motion.div
                 animate={{ width: `${taskBarProgress}%` }}
                 transition={{ duration: 1 }}
-                exit={{ width: '0%' }}
+                exit={{ width: "0%" }}
                 className="py-2 border-slate-400 h-2 rounded-2xl absolute top-0 bg-[var(--primary)]"
               ></motion.div>
             ) : (
@@ -83,7 +87,11 @@ export function GoalCard({ goal }: { goal: Goal }) {
           }}
           className={`${showTasks ? "block" : "hidden"}`}
         >
-          <GoalTask tasks={goal.tasks} goalStatus={goal.status} />
+          <div className="flex flex-col gap-2">
+            {goal.tasks.map((task: Task) => (
+              <TaskItem {...task} key={task.id} goalStatus={goal.status} />
+            ))}
+          </div>
         </motion.div>
       </AnimatePresence>
     </div>

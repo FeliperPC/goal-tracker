@@ -1,64 +1,57 @@
-import { Goal, Status, Task } from "@/types/types";
+import { Status, Task } from "@/types/types";
 import { Check } from "lucide-react";
-import { useState } from "react";
+import { useState, useTransition } from "react";
+import { updateGoal } from "@/lib/goal/goal-actions";
 import { LoadingSpinner } from "./LoadingSpinner";
-import { useGlobalStore } from "../(store)/useGlobalStore";
 
 export default function TaskItem({
-  task,
-  onUpdateGoal,
+  id,
+  name,
+  goalId,
+  createdAt,
+  status,
   goalStatus,
 }: {
-  task: Task;
-  onUpdateGoal: (taskId: number, value: Status) => Promise<Goal>;
+  id: number;
+  name: string;
+  goalId: number;
+  createdAt: Date;
+  status: Status;
   goalStatus: string;
 }) {
-  const [goalTask, setGoalTask] = useState(task);
-  const [isLoading, setIsLoading] = useState(false);
-  const updatedGoal = useGlobalStore((s) => s.setGoal);
+  const [isPending, startTransition] = useTransition();
 
-  async function handleChange() {
-    setIsLoading(true);
-    const goal =
-      goalTask.status == "TODO"
-        ? await onUpdateGoal(goalTask.id, "DONE")
-        : await onUpdateGoal(goalTask.id, "TODO");
-    setIsLoading(false);
-    const task = goal.tasks.find((task) => task.id == goalTask.id);
-    setGoalTask(task!!!);
-    if (goal.tasks.every((task) => task.status == "DONE")) {
-      setTimeout(() => {
-        updatedGoal(goal);
-      }, 5000);
-    } else {
-      updatedGoal(goal);
-    }
+  function handleChange() {
+    startTransition(async () => {
+      await updateGoal(id);
+    });
   }
 
   return (
     <div className="flex gap-2 items-center relative">
       <button
+        type="submit"
         disabled={goalStatus == "DONE"}
         className={`${
-          goalTask.status == "DONE"
+          status == "DONE"
             ? "bg-[var(--secondary)]"
             : "border border-gray-700/50"
         } rounded-[100%] w-5 h-5 flex items-center justify-center disabled:bg-[var(--primary)]/40`}
         onClick={handleChange}
       >
-        {goalTask.status == "DONE" && <Check size={12} color="white" />}
+        {status == "DONE" && <Check size={12} color="white" />}
       </button>
       <p
         className={`
-        ${goalTask.status === "DONE" ? "line-through" : "text-gray-800"}
+        ${status === "DONE" ? "line-through" : "text-gray-800"}
         ${
           goalStatus === "DONE" ? "text-gray-400 line-through" : "text-gray-800"
         }
         text-sm`}
       >
-        {goalTask.name}
+        {name}
       </p>
-      {isLoading ? (
+      {isPending ? (
         <div className="absolute right-0">
           <LoadingSpinner />
         </div>
