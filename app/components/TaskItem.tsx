@@ -1,8 +1,8 @@
 import { Status, Task } from "@/types/types";
 import { Check } from "lucide-react";
-import { useState, useTransition } from "react";
-import { updateGoal } from "@/lib/goal/goal-actions";
+import { useTransition } from "react";
 import { LoadingSpinner } from "./LoadingSpinner";
+import { updateTask } from "@/lib/task/task-actions";
 
 export default function TaskItem({
   id,
@@ -23,7 +23,7 @@ export default function TaskItem({
 
   function handleChange() {
     startTransition(async () => {
-      await updateGoal(id);
+      await updateTask(id);
     });
   }
 
