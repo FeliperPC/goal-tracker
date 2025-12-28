@@ -27,7 +27,7 @@ model Task {
   id        Int      @id @default(autoincrement())
   name      String
   goalId    Int
-  goal      Goal     @relation(fields: [goalId], references: [id])
+  goal      Goal     @relation(fields: [goalId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
   status    Status
 }

@@ -5,12 +5,10 @@ import { ChevronUp, ChevronDown } from "lucide-react";
 import { Goal, Task } from "@/types/types";
 import { useMemo, useState, useTransition } from "react";
 import TaskItem from "./TaskItem";
-import { finishGoal } from "@/lib/goal/goal-actions";
-import { LoadingSpinner } from "./LoadingSpinner";
+import GoalActions from "./GoalActions";
 
 export function GoalCard({ goal }: { goal: Goal }) {
   const [showTasks, setShowTasks] = useState(false);
-  const [isPending, startTransition] = useTransition();
 
   const taskBarProgress = useMemo(() => {
     return calculateProgress();
@@ -25,12 +23,6 @@ export function GoalCard({ goal }: { goal: Goal }) {
       : 0;
   }
 
-  function handleChangeGoalStatus() {
-    startTransition(async () => {
-      await finishGoal(goal.id);
-    });
-  }
-
   return (
     <div
       className="flex flex-col border border-slate-300 px-4 py-4 bg-slate-100/50 rounded-xl shadow text-lg gap-3 justify-start"
@@ -38,24 +30,7 @@ export function GoalCard({ goal }: { goal: Goal }) {
     >
       <header>
         <div className="flex justify-between">
-          <div className="w-full">
-            {goal.status != "DONE" && (
-              <button
-                className="border border-gray-400/30 rounded-xl text-gray-400 shadow-lg text-sm px-2 py-1"
-                onClick={handleChangeGoalStatus}
-                disabled={isPending}
-              >
-                {isPending ? (
-                  <>
-                    <LoadingSpinner />
-                  </>
-                ) : (
-                  <>In progress</>
-                )}
-              </button>
-            )}
-            <p>{goal.name}</p>
-          </div>
+          <p>{goal.name}</p>
           <AnimatePresence mode="wait">
             <motion.button
               key={showTasks ? "down" : "up"}
@@ -114,6 +89,11 @@ export function GoalCard({ goal }: { goal: Goal }) {
               <TaskItem {...task} key={task.id} goalStatus={goal.status} />
             ))}
           </div>
+          {goal.status == "TODO" && (
+            <div className="mt-4">
+              <GoalActions goalId={goal.id} />
+            </div>
+          )}
         </motion.div>
       </AnimatePresence>
     </div>

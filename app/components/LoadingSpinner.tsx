@@ -3,7 +3,7 @@
 import { Loader2 } from "lucide-react";
 import { motion } from "framer-motion";
 
-export function LoadingSpinner() {
+export function LoadingSpinner({ color }: { color?: string }) {
   return (
     <motion.div
       className="flex items-center justify-center"
@@ -14,7 +14,10 @@ export function LoadingSpinner() {
         ease: "linear",
       }}
     >
-      <Loader2 className="w-6 h-6 text-[var(--secondary)]" />
+      <Loader2
+        className="w-6 h-6"
+        style={{ color: color ?? "var(--secondary)" }}
+      />
     </motion.div>
   );
 }

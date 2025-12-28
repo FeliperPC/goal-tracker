@@ -35,7 +35,7 @@ export default function RootLayout({
             <div className="px-2 flex items-center flex-col gap-4  w-full">
               <button
                 type="button"
-                className="bg-(--secondary) flex items-center gap-2 text-slate-200 font-semibold text-lg rounded-xl w-full h-10 justify-center shadow-2xl"
+                className="bg-(--secondary) flex items-center gap-2 text-slate-200 font-semibold text-lg rounded-xl w-full h-10 justify-center shadow-xl"
               >
                 <Plus className="size-5" />
                 Add new goal
