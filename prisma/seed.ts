@@ -11,7 +11,12 @@ const prisma = new PrismaClient({
 });
 
 async function main() {
-  console.log("🌱 Iniciando seed...");
+   console.log("🌱 Reseting db...");
+
+  await prisma.task.deleteMany();
+  await prisma.goal.deleteMany();
+
+  console.log("🌱 Initializing seed...");
   const goal1 = await prisma.goal.create({
     data: {
       name: "Learn Prisma",
@@ -60,7 +65,7 @@ async function main() {
         create: [
           { name: "Study basic utility classes", status: "DONE" },
           { name: "Layouts with Grid and Flexbox", status: "DONE" },
-          { name: "Implement dark mode", status: "TODO" },
+          { name: "Implement dark mode", status: "DONE" },
         ],
       },
     },
@@ -89,13 +94,13 @@ async function main() {
       tasks: {
         create: [
           { name: "Understand Next.js cache", status: "DONE" },
-          { name: "Use revalidatePath", status: "TODO" },
-          { name: "Avoid unnecessary re-renders", status: "TODO" },
+          { name: "Use revalidatePath", status: "DONE" },
+          { name: "Avoid unnecessary re-renders", status: "DONE" },
         ],
       },
     },
   });
-  console.log("✅ Seed finalizado");
+  console.log("✅ Seed finished");
 }
 main()
   .catch((e) => {

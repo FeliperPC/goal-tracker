@@ -36,7 +36,7 @@ export default function TaskItem({
           status == "DONE"
             ? "bg-(--secondary)"
             : "border border-gray-700/50"
-        } rounded-[100%] w-5 h-5 flex items-center justify-center disabled:bg-[var(--primary)]/40`}
+        } rounded-[100%] w-5 h-5 flex items-center justify-center disabled:bg-(--primary)/40`}
         onClick={handleChange}
       >
         {status == "DONE" && <Check size={12} color="white" />}

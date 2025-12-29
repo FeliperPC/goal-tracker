@@ -1,6 +1,6 @@
 "use client";
 import { finishGoal, removeGoal } from "@/lib/goal/goal-actions";
-import { CheckCheck, Pencil, Trash } from "lucide-react";
+import { CheckCheck, Pencil, Trash, X } from "lucide-react";
 import { useState, useTransition } from "react";
 import { LoadingSpinner } from "../LoadingSpinner";
 import DialogConfirmation from "../Dialogs/DialogConfirmation";
@@ -24,11 +24,13 @@ export default function GoalActions({ goalId }: { goalId: number }) {
   function handleConfirmation() {
     switch (action) {
       case "finish":
+        setIsOpen(false)
         startTransition(async () => {
           await finishGoal(goalId);
         });
         break;
       default:
+        setIsOpen(false)
         startTransition(async () => {
           await removeGoal(goalId);
         });
@@ -38,13 +40,13 @@ export default function GoalActions({ goalId }: { goalId: number }) {
   return (
     <div className="flex gap-2 justify-end">
       <button
-        className="rounded-xl p-2  bg-gray-500/20 shadow-md"
+        className="rounded-xl p-2 shadow-md border border-gray-800/20"
         disabled={isPending}
       >
         <Pencil className="size-5 text-gray-500" />
       </button>
       <button
-        className="rounded-xl p-2 text-(--secondary) bg-[var(--primary)]/20 shadow-md flex items-center gap-2"
+        className="rounded-xl p-2 text-(--secondary) bg-[var(--primary)]/20 shadow-md flex items-center gap-2 border border-(--secondary)/20"
         disabled={isPending}
         onClick={handleFinishGoal}
       >
@@ -58,7 +60,7 @@ export default function GoalActions({ goalId }: { goalId: number }) {
         )}
       </button>
       <button
-        className="rounded-xl p-2  bg-red-500/20 shadow-md text-red-600 flex items-center gap-2"
+        className="rounded-xl p-2  bg-red-500/20 shadow-md text-red-600 flex items-center gap-2 border border-red-500/20"
         disabled={isPending}
         onClick={handleDeleteGoal}
       >
@@ -72,21 +74,24 @@ export default function GoalActions({ goalId }: { goalId: number }) {
         )}
       </button>
       <DialogConfirmation
-        isOpen={isOpen && action == "delete"}
+        isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         onConfirm={handleConfirmation}
-        btnConfirmColor="bg-red-500/20 text-red-600"
-        btnConfirmTitle="Delete"
-        btnConfirmIcon={Trash}
+        btnConfirmColor={action == "delete" ? "bg-red-500/20 text-red-600" : "text-(--secondary) bg-[var(--primary)]/20"}
+        btnConfirmTitle={action == "delete" ? "Delete" : "Finish goal"}
+        btnConfirmIcon={action == "delete" ? Trash : CheckCheck}
       >
-        <h2 className="text-lg font-semibold">Delete goal</h2>
+        <div className="flex justify-between items-center text-gray-900">
+          <h2 className={`text-xl font-semibold`}>{action == "delete" ? "Delete goal" : "Finish goal"}</h2>
+          <button onClick={() => setIsOpen(false)}>
+            <X />
+          </button>
+        </div>
         <p className="text-sm text-gray-800">
-          Are you sure you want to delete this goal?
+          Are you sure you want to finish this goal?
           <br />
           <span>
-            This will permanently{" "}
-            <strong>delete the goal and all its tasks</strong>. This action
-            cannot be undone.
+            This will set the <strong>goal and its tasks as done</strong>.
           </span>
         </p>
       </DialogConfirmation>
