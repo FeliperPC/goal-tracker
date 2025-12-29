@@ -1,4 +1,4 @@
-import { GoalCard } from "@/app/components/GoalCard";
+import { GoalCard } from "@/app/components/Goals/GoalCard";
 import { getDoneGoals } from "@/lib/goal/goal-select";
 
 export default async function Done() {

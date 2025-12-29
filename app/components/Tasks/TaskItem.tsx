@@ -1,8 +1,8 @@
 import { Status, Task } from "@/types/types";
 import { Check } from "lucide-react";
 import { useTransition } from "react";
-import { LoadingSpinner } from "./LoadingSpinner";
 import { updateTask } from "@/lib/task/task-actions";
+import { LoadingSpinner } from "../LoadingSpinner";
 
 export default function TaskItem({
   id,
@@ -34,7 +34,7 @@ export default function TaskItem({
         disabled={goalStatus == "DONE"}
         className={`${
           status == "DONE"
-            ? "bg-[var(--secondary)]"
+            ? "bg-(--secondary)"
             : "border border-gray-700/50"
         } rounded-[100%] w-5 h-5 flex items-center justify-center disabled:bg-[var(--primary)]/40`}
         onClick={handleChange}

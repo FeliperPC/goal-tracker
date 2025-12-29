@@ -3,9 +3,9 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronUp, ChevronDown } from "lucide-react";
 import { Goal, Task } from "@/types/types";
-import { useMemo, useState, useTransition } from "react";
-import TaskItem from "./TaskItem";
+import { useMemo, useState } from "react";
 import GoalActions from "./GoalActions";
+import TaskItem from "../Tasks/TaskItem";
 
 export function GoalCard({ goal }: { goal: Goal }) {
   const [showTasks, setShowTasks] = useState(false);

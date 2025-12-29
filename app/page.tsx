@@ -1,5 +1,5 @@
-import GoalViewControl from "./components/GoalViewControl";
-import GoalStatusGroup from "./components/GoalStatusGroup";
+import GoalViewControl from "./components/Goals/GoalViewControl";
+import GoalStatusGroup from "./components/Goals/GoalStatusGroup";
 import InfoCard from "./components/InfoCard";
 import { Suspense } from "react";
 

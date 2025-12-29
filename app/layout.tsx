@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Manrope } from "next/font/google";
 import "./globals.css";
-import HeaderComponent from "./components/HeaderComponent";
+import HeaderComponent from "./components/Goals/HeaderComponent";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Plus } from "lucide-react";
 
