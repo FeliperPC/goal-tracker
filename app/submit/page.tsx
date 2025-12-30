@@ -1,25 +1,188 @@
+"use client";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Sparkles } from "lucide-react";
+import { addGoalAction } from "@/lib/goal/goal-actions";
+import { useActionState } from "react";
+import { FormState } from "@/types/types";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { Checkbox } from "@/components/ui/checkbox";
+import { FieldDescription, FieldSeparator } from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Textarea } from "@/components/ui/textarea";
+import { TaskFormData } from "@/types/types";
+import { Plus, Trash } from "lucide-react";
+import { useState } from "react";
 
 export default function SubmitPage() {
-  const goalMotivations = [
-    "Every great goal starts with a single step.",
-    "Small actions, taken consistently, lead to big results.",
-    "Don’t wait for the perfect moment. Start now.",
-    "Defining a goal is the first step toward becoming who you want to be.",
-    "Turn intention into action. Name your goal.",
-    "Written goals are far more likely to be achieved.",
-  ];
+  const initialState: FormState = {
+    success: false,
+    errors: undefined,
+    message: "",
+  };
+  const [state, formAction, isPending] = useActionState(
+    addGoalAction,
+    initialState
+  );
+  const [tasks, setTasks] = useState<TaskFormData[]>([
+    { name: "", status: "TODO" },
+  ]);
+
+  function addTask(e: any) {
+    e.preventDefault();
+    setTasks([...tasks, { name: "", status: "TODO" }]);
+  }
+
+  function removeTask(e: any, index: number) {
+    e.preventDefault();
+    const newTasks = [...tasks];
+    newTasks.splice(index, 1);
+    setTasks(newTasks);
+  }
+
+  function handleTaskInputChange(
+    e: React.ChangeEvent<HTMLInputElement>,
+    index: number
+  ) {
+    const { value } = e.target;
+    const newTasks = [...tasks];
+    newTasks[index].name = value;
+    setTasks(newTasks);
+  }
+
+  function handleTaskStatusChange(index: number) {
+    const newTasks = [...tasks];
+    newTasks[index].status =
+      newTasks[index].status === "TODO" ? "DONE" : "TODO";
+    setTasks(newTasks);
+  }
   return (
-    <div className="px-2">
-      <header className="flex gap-2 flex-col">
-        <div className="text-xl font-semibold text-(--secondary) flex items-center gap-2">
-          <Sparkles className="size-5" />
-          Create goal
-        </div>
-        <p className="italic ml-7 text-gray-800">
-          {goalMotivations[Math.floor(Math.random() * goalMotivations.length)]}
-        </p>
-      </header>
+    <div className="px-4">
+      <Card className="w-full max-w-sm">
+        <CardHeader>
+          <CardTitle>Create Goal</CardTitle>
+          <CardDescription>
+            Complete the information below to set a new goal, all fields are
+            required
+          </CardDescription>
+        </CardHeader>
+        <form action={formAction}>
+          <CardContent>
+            <div>
+              <div className="flex flex-col gap-6">
+                <div className="grid gap-2">
+                  <Label htmlFor="goal-title">Title</Label>
+                  <Input
+                    name="title"
+                    id="goal-title"
+                    type="text"
+                    placeholder="Graduate from college"
+                    required
+                  />
+                </div>
+                <div className="grid gap-2">
+                  <Label htmlFor="description">Description</Label>
+                  <Textarea
+                    id="description"
+                    placeholder="Complete my college degree and meet all graduation requirements."
+                    required
+                    name="description"
+                  />
+                </div>
+                <div className="grid gap-2">
+                  <Label htmlFor="status">Status</Label>
+                  <FieldDescription>
+                    Marking a goal as completed will automatically mark all
+                    related tasks as completed.
+                  </FieldDescription>
+                  <RadioGroup
+                    defaultValue="todo"
+                    className="mt-2"
+                    name="goalStatus"
+                  >
+                    <div className="flex items-center gap-3">
+                      <RadioGroupItem value="todo" id="goal-todo" />
+                      <Label htmlFor="goal-todo">To Do</Label>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <RadioGroupItem value="done" id="goal-done" />
+                      <Label htmlFor="goal-done">Done</Label>
+                    </div>
+                  </RadioGroup>
+                </div>
+                <FieldSeparator />
+              </div>
+              <Accordion type="single" collapsible>
+                <AccordionItem value="item-1">
+                  <AccordionTrigger>Tasks</AccordionTrigger>
+                  <AccordionContent>
+                    <div className="grid gap-2">
+                      {tasks.map((task, index) => (
+                        <div className="flex items-center gap-2" key={index}>
+                          <Checkbox
+                            id="task"
+                            className="size-6 border border-primary/50"
+                            checked={task.status == "DONE"}
+                            onClick={() => handleTaskStatusChange(index)}
+                            name={`tasks[${index}][status]`}
+                            value={task.status}
+                          />
+                          <Input
+                            id="task-title"
+                            type="text"
+                            placeholder="Make my registration"
+                            value={task.name}
+                            onChange={(e) => handleTaskInputChange(e, index)}
+                            required
+                            name={`tasks[${index}][name]`}
+                          />
+                          <Button
+                            variant="outline"
+                            disabled={tasks.length == 1}
+                            onClick={(e) => removeTask(e, index)}
+                          >
+                            <Trash />
+                          </Button>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="w-full flex justify-center mt-4">
+                      <Button
+                        variant="outline"
+                        className="w-full"
+                        onClick={addTask}
+                      >
+                        <Plus />
+                        New task
+                      </Button>
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
+            </div>
+          </CardContent>
+          <CardFooter className="flex-col gap-2">
+            <Button type="submit" className="w-full">
+              <Sparkles />
+              Create goal
+            </Button>
+          </CardFooter>
+        </form>
+      </Card>
     </div>
   );
 }

@@ -1,6 +1,7 @@
 "use server";
 
 import prisma from "@/lib/prisma";
+import { FormState } from "@/types/types";
 import { revalidatePath } from "next/cache";
 
 
@@ -46,5 +47,13 @@ export async function removeGoal(goalId:number){
       message: "Failed to delete goal",
     };
   }
+}
+
+export async function addGoalAction(prevState: FormState,
+  formData: FormData) {
+  const rawData = Object.fromEntries(formData.entries());
+
+  console.log(formData);
+  
 }
 

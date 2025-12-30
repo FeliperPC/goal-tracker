@@ -31,17 +31,6 @@ export default function RootLayout({
             {children}
             {goals}
           </div>
-          <div className="fixed flex items-center justify-center bottom-0 h-20 w-full z-50 bg-slate-100/95 backdrop:blur supports-backdrop-filter:bg-slate-100/60">
-            <div className="px-2 flex items-center flex-col gap-4  w-full">
-              <button
-                type="button"
-                className="bg-(--secondary) flex items-center gap-2 text-slate-200 font-semibold text-lg rounded-xl w-full h-10 justify-center shadow-xl"
-              >
-                <Plus className="size-5" />
-                Add new goal
-              </button>
-            </div>
-          </div>
         </body>
       </html>
     </ClerkProvider>

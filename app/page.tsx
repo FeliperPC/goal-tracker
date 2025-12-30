@@ -1,7 +1,8 @@
 import GoalViewControl from "./components/Goals/GoalViewControl";
 import GoalStatusGroup from "./components/Goals/GoalStatusGroup";
-import InfoCard from "./components/InfoCard";
+import InfoCard from "./components/Home/InfoCard";
 import { Suspense } from "react";
+import Footer from "./components/Home/Footer";
 
 export default async function Todo() {
   return (
@@ -11,6 +12,7 @@ export default async function Todo() {
         <GoalStatusGroup />
       </Suspense>
       <GoalViewControl />
+      <Footer />
     </div>
   );
 }

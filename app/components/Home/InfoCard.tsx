@@ -1,6 +1,6 @@
 "use cache"
 import { Quote } from "@/types/types"
-import { dateInfo } from "../utils/callendarInfo";
+import { dateInfo } from "../../utils/callendarInfo";
 
 export default async function InfoCard() {
   const response = await fetch('https://zenquotes.io/api/today/',{

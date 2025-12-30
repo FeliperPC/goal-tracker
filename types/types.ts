@@ -28,3 +28,14 @@ export type GoalsProgress = {
   done: number;
   todo: number;
 }
+
+export type TaskFormData = {
+  name:string,
+  status: Status
+}
+
+export type FormState = {
+  success: boolean;
+  errors?: Record<string, string[]>;
+  message: string;
+};
