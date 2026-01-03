@@ -1,8 +1,10 @@
-"use server"
+"use server";
 
 import { revalidatePath } from "next/cache";
 import { getTaskById } from "./task-select";
 import prisma from "../prisma";
+import { Task } from "@/types/types";
+import { m } from "framer-motion";
 
 export async function updateTask(taskId: number) {
   try {
@@ -34,6 +36,32 @@ export async function updateTask(taskId: number) {
       success: false,
       errors: { error: ["Error on updating goal"] },
       message: "Failed to update goal",
+    };
+  }
+}
+
+export async function addTasks(tasks: Task[], goalId: number) {
+  const data: any = [];
+  tasks.map(({ name, status }) => {
+    data.push({
+      name,
+      status,
+      goalId,
+    });
+  });
+  try {
+    await prisma.task.createMany({
+      data,
+    });
+    return {
+      success: true,
+      message: "Tasks added successfully!",
+    };
+  } catch (error) {
+    return {
+      success: false,
+      error: error,
+      message: "Error on adding tasks",
     };
   }
 }

@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/card";
 import { Sparkles } from "lucide-react";
 import { addGoalAction } from "@/lib/goal/goal-actions";
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
 import { FormState } from "@/types/types";
 import {
   Accordion,
@@ -27,6 +27,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { TaskFormData } from "@/types/types";
 import { Plus, Trash } from "lucide-react";
 import { useState } from "react";
+import { LoadingSpinner } from "../components/LoadingSpinner";
+import { cn } from "@/lib/utils";
 
 export default function SubmitPage() {
   const initialState: FormState = {
@@ -38,6 +40,19 @@ export default function SubmitPage() {
     addGoalAction,
     initialState
   );
+
+  const [showMessage, setShowMessage] = useState(false);
+
+  useEffect(()=>{
+    if(state.message){
+      setShowMessage(true)
+    }
+    setTasks([{ name: "", status: "TODO" }]);
+    setTimeout(() => {
+      setShowMessage(false)
+    },5000)
+  },[state]);
+
   const [tasks, setTasks] = useState<TaskFormData[]>([
     { name: "", status: "TODO" },
   ]);
@@ -72,6 +87,20 @@ export default function SubmitPage() {
   }
   return (
     <div className="px-4">
+      {state.message && showMessage && (
+        <div
+          className={cn(
+            "p-4 mb-2 rounded-lg border",
+            state.success
+              ? "bg-primary/10 border-primary text-primary"
+              : "bg-destructive/10 border-destructive text-destructive"
+          )}
+          role="alert"
+          aria-live="polite"
+        >
+          {state.message}
+        </div>
+      )}
       <Card className="w-full max-w-sm">
         <CardHeader>
           <CardTitle>Create Goal</CardTitle>
@@ -87,7 +116,7 @@ export default function SubmitPage() {
                 <div className="grid gap-2">
                   <Label htmlFor="goal-title">Title</Label>
                   <Input
-                    name="title"
+                    name="name"
                     id="goal-title"
                     type="text"
                     placeholder="Graduate from college"
@@ -138,7 +167,6 @@ export default function SubmitPage() {
                             className="size-6 border border-primary/50"
                             checked={task.status == "DONE"}
                             onClick={() => handleTaskStatusChange(index)}
-                            name={`tasks[${index}][status]`}
                             value={task.status}
                           />
                           <Input
@@ -148,7 +176,6 @@ export default function SubmitPage() {
                             value={task.name}
                             onChange={(e) => handleTaskInputChange(e, index)}
                             required
-                            name={`tasks[${index}][name]`}
                           />
                           <Button
                             variant="outline"
@@ -177,10 +204,19 @@ export default function SubmitPage() {
           </CardContent>
           <CardFooter className="flex-col gap-2">
             <Button type="submit" className="w-full">
-              <Sparkles />
-              Create goal
+              {isPending ? (
+                <>
+                  <LoadingSpinner /> Creating ...
+                </>
+              ) : (
+                <>
+                  <Sparkles />
+                  Create goal
+                </>
+              )}
             </Button>
           </CardFooter>
+          <input type="hidden" name="tasks" value={JSON.stringify(tasks)} />
         </form>
       </Card>
     </div>
