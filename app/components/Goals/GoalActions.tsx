@@ -46,7 +46,7 @@ export default function GoalActions({ goalId }: { goalId: number }) {
         <Pencil className="size-5 text-gray-500" />
       </button>
       <button
-        className="rounded-xl p-2 text-(--secondary) bg-[var(--primary)]/20 shadow-md flex items-center gap-2 border border-(--secondary)/20"
+        className="rounded-xl p-2 text-(--secondary) bg-primary/70 shadow-md flex items-center gap-2 border border-(--secondary)/20"
         disabled={isPending}
         onClick={handleFinishGoal}
       >
@@ -77,7 +77,7 @@ export default function GoalActions({ goalId }: { goalId: number }) {
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         onConfirm={handleConfirmation}
-        btnConfirmColor={action == "delete" ? "bg-red-500/20 text-red-600" : "text-(--secondary) bg-[var(--primary)]/20"}
+        btnConfirmColor={action == "delete" ? "bg-red-500/20 text-red-600" : "text-secondary bg-primary/70"}
         btnConfirmTitle={action == "delete" ? "Delete" : "Finish goal"}
         btnConfirmIcon={action == "delete" ? Trash : CheckCheck}
       >

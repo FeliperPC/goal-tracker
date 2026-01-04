@@ -34,9 +34,9 @@ export default function TaskItem({
         disabled={goalStatus == "DONE"}
         className={`${
           status == "DONE"
-            ? "bg-(--secondary)"
+            ? "bg-primary"
             : "border border-gray-700/50"
-        } rounded-[100%] w-5 h-5 flex items-center justify-center disabled:bg-(--primary)/40`}
+        } rounded-[100%] w-5 h-5 flex items-center justify-center disabled:bg-primary/40`}
         onClick={handleChange}
       >
         {status == "DONE" && <Check size={12} color="white" />}

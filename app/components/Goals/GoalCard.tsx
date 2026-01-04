@@ -63,7 +63,7 @@ export function GoalCard({ goal }: { goal: Goal }) {
                 animate={{ width: `${taskBarProgress}%` }}
                 transition={{ duration: 1 }}
                 exit={{ width: "0%" }}
-                className="py-2 border-slate-400 h-2 rounded-2xl absolute top-0 bg-[var(--secondary)]"
+                className="py-2 border-slate-400 h-2 rounded-2xl absolute top-0 bg-primary"
               ></motion.div>
             ) : (
               ""
