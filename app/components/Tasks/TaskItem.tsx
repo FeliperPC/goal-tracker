@@ -33,9 +33,7 @@ export default function TaskItem({
         type="submit"
         disabled={goalStatus == "DONE"}
         className={`${
-          status == "DONE"
-            ? "bg-primary"
-            : "border border-gray-700/50"
+          status == "DONE" ? "bg-primary" : "border border-gray-700/50"
         } rounded-[100%] w-5 h-5 flex items-center justify-center disabled:bg-primary/40`}
         onClick={handleChange}
       >

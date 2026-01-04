@@ -1,22 +1,40 @@
-"use cache"
-import { Quote } from "@/types/types"
+import { Quote } from "@/types/types";
 import { dateInfo } from "../../utils/callendarInfo";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardAction,
+  CardContent,
+  CardFooter,
+} from "@/components/ui/card";
+import { auth, currentUser } from "@clerk/nextjs/server";
 
 export default async function InfoCard() {
-  const response = await fetch('https://zenquotes.io/api/today/',{
-    cache:'no-store' // why ?
-  })
+  const user = await currentUser();
+  const response = await fetch("https://zenquotes.io/api/today/", {
+    cache: "force-cache",
+  });
 
-  const data: Quote[] = await response.json()
+  const data: Quote[] = await response.json();
   return (
-    <div>
-      <div className="px-6 py-8 w-full max-h-44 bg-primary text-white flex flex-col justify-center rounded-2xl shadow-md gap-3">
-        <p className="text-sm">{dateInfo.month}, {dateInfo.day} {dateInfo.year}</p>
-        <div>
-          <p className="font-semibold italic">{data[0].q}</p>
-          <p className="text-sm text-end">{data[0].a}</p>
-        </div>
-      </div>
-    </div>
-  )
+    <section>
+      <Card className="bg-primary shadow-lg">
+        <CardHeader>
+          <CardTitle className="text-white">Hi {user?.firstName} !</CardTitle>
+          <CardDescription className="text-slate-300">
+            Here's an inspiration for today
+          </CardDescription>
+          <CardAction className="text-sm text-slate-300">
+            {dateInfo.month}, {dateInfo.day} {dateInfo.year}
+          </CardAction>
+        </CardHeader>
+        <CardContent className="italic font-semibold text-white">
+          <p>{data[0].q}</p>
+          <p className="text-slate-300 text-sm">by {data[0].a}</p>
+        </CardContent>
+      </Card>
+    </section>
+  );
 }

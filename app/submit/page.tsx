@@ -8,7 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Sparkles } from "lucide-react";
+import { ArrowLeft, ArrowLeftCircle, Sparkles } from "lucide-react";
 import { addGoalAction } from "@/lib/goal/goal-actions";
 import { useActionState, useEffect } from "react";
 import { FormState } from "@/types/types";
@@ -34,6 +34,7 @@ import { Plus, Trash } from "lucide-react";
 import { useState } from "react";
 import { LoadingSpinner } from "../components/LoadingSpinner";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 export default function SubmitPage() {
   const initialState: FormState = {
@@ -112,6 +113,13 @@ export default function SubmitPage() {
       )}
       <Card className="w-full max-w-sm">
         <CardHeader>
+          <Link
+            href="/"
+            className="text-primary hover:underline text-sm flex gap-1 mb-4"
+          >
+            <ArrowLeft className="size-5" />
+            Back to home
+          </Link>
           <CardTitle>Create Goal</CardTitle>
           <CardDescription>
             Complete the information below to set a new goal, all fields are

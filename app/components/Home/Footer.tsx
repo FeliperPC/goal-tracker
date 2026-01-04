@@ -8,7 +8,7 @@ export default function Footer() {
       <div className="px-2 flex flex-col items-center justify-center gap-4 w-full h-full">
         <Button
           asChild
-          className="flex h-10 w-full items-center justify-center gap-2 rounded-md bg-primary text-primary-foreground font-semibold text-lg shadow-xl"
+          className="flex h-10 w-full items-center justify-center gap-2 rounded-md bg-primary text-primary-foreground font-semibold text-md shadow-xl"
         >
           <Link href="/submit">
             <Plus className="size-5" />

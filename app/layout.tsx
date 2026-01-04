@@ -3,7 +3,6 @@ import { Manrope } from "next/font/google";
 import "./globals.css";
 import HeaderComponent from "./components/Goals/HeaderComponent";
 import { ClerkProvider } from "@clerk/nextjs";
-import { Plus } from "lucide-react";
 
 const mainrope = Manrope({
   variable: "--font-manrope-sans",
@@ -17,19 +16,18 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-  goals,
 }: Readonly<{
   children: React.ReactNode;
-  goals: React.ReactNode;
 }>) {
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className={`${mainrope.className} antialiased h-screen`}>
+        <body
+          className={`${mainrope.className} antialiased h-screen bg-primary/5`}
+        >
           <div className="flex flex-col gap-4 py-2">
             <HeaderComponent />
             {children}
-            {goals}
           </div>
         </body>
       </html>

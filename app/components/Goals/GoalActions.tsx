@@ -24,13 +24,13 @@ export default function GoalActions({ goalId }: { goalId: number }) {
   function handleConfirmation() {
     switch (action) {
       case "finish":
-        setIsOpen(false)
+        setIsOpen(false);
         startTransition(async () => {
           await finishGoal(goalId);
         });
         break;
       default:
-        setIsOpen(false)
+        setIsOpen(false);
         startTransition(async () => {
           await removeGoal(goalId);
         });
@@ -77,12 +77,18 @@ export default function GoalActions({ goalId }: { goalId: number }) {
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         onConfirm={handleConfirmation}
-        btnConfirmColor={action == "delete" ? "bg-red-500/20 text-red-600" : "text-secondary bg-primary/70"}
+        btnConfirmColor={
+          action == "delete"
+            ? "bg-red-500/20 text-red-600"
+            : "text-secondary bg-primary/70"
+        }
         btnConfirmTitle={action == "delete" ? "Delete" : "Finish goal"}
         btnConfirmIcon={action == "delete" ? Trash : CheckCheck}
       >
         <div className="flex justify-between items-center text-gray-900">
-          <h2 className={`text-xl font-semibold`}>{action == "delete" ? "Delete goal" : "Finish goal"}</h2>
+          <h2 className={`text-xl font-semibold`}>
+            {action == "delete" ? "Delete goal" : "Finish goal"}
+          </h2>
           <button onClick={() => setIsOpen(false)}>
             <X />
           </button>
