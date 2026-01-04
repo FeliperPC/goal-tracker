@@ -6,6 +6,7 @@ import { FormState, Status } from "@/types/types";
 import { auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
 import { addTasks } from "../task/task-actions";
+import { createTaskSchema } from "@/app/(core)/schemas/task.schema";
 
 export async function finishGoal(goalId: number) {
   try {
@@ -53,11 +54,6 @@ export async function removeGoal(goalId: number) {
 
 export async function addGoalAction(prevState: FormState, formData: FormData) {
   try {
-    await new Promise((resolve) => setTimeout(resolve, 3000));
-    return {
-      success: true,
-      message: "Goal created successfully!",
-    };
     const { userId } = await auth();
     if (!userId) {
       return {
@@ -67,14 +63,14 @@ export async function addGoalAction(prevState: FormState, formData: FormData) {
     }
     const formDataValues = Object.fromEntries(formData.entries());
 
-    const validatedData = createGoalSchema.safeParse({
+    const validatedGoalData = createGoalSchema.safeParse({
       name: formDataValues.name,
       description: formDataValues.description,
       status: formDataValues.goalStatus,
     });
 
-    if (!validatedData.success) {
-      const errors = validatedData.error.flatten().fieldErrors;
+    if (!validatedGoalData.success) {
+      const errors = validatedGoalData.error.flatten().fieldErrors;
       return {
         success: false,
         errors: errors,
@@ -82,7 +78,7 @@ export async function addGoalAction(prevState: FormState, formData: FormData) {
       };
     }
 
-    const { name, description, status } = validatedData.data;
+    const { name, description, status } = validatedGoalData.data;
 
     const newGoal = await prisma.goal.create({
       data: {
@@ -94,9 +90,30 @@ export async function addGoalAction(prevState: FormState, formData: FormData) {
     });
 
     const tasksArray = JSON.parse(formDataValues.tasks as string);
+    const result: boolean[] = [];
+    tasksArray.forEach((task: any) => {
+      result.push(
+        createTaskSchema.safeParse({
+          name: task.name,
+          goalId: 3,
+          status: task.status,
+        }).success
+      );
+    });
+
+    if (result.includes(false)) {
+      await removeGoal(newGoal.id);
+      return {
+        success: false,
+        errors: { error: ["Tasks must have a valid name."] },
+        message:" Invalid task data provided.",
+      };
+    }
+
     const taskInsertResult = await addTasks(tasksArray, newGoal.id);
 
     if (!taskInsertResult.success) {
+      await removeGoal(newGoal.id);
       return {
         success: false,
         message: "Goal created but failed to add tasks.",
@@ -104,6 +121,7 @@ export async function addGoalAction(prevState: FormState, formData: FormData) {
     }
 
     revalidatePath("/");
+
     return {
       success: true,
       message: "Goal created successfully!",

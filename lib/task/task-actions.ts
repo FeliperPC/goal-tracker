@@ -4,7 +4,6 @@ import { revalidatePath } from "next/cache";
 import { getTaskById } from "./task-select";
 import prisma from "../prisma";
 import { Task } from "@/types/types";
-import { m } from "framer-motion";
 
 export async function updateTask(taskId: number) {
   try {

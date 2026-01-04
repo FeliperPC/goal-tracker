@@ -19,7 +19,12 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Checkbox } from "@/components/ui/checkbox";
-import { FieldDescription, FieldSeparator } from "@/components/ui/field";
+import {
+  Field,
+  FieldDescription,
+  FieldError,
+  FieldSeparator,
+} from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -43,15 +48,17 @@ export default function SubmitPage() {
 
   const [showMessage, setShowMessage] = useState(false);
 
-  useEffect(()=>{
-    if(state.message){
-      setShowMessage(true)
+  useEffect(() => {
+    if (state.success) {
+      if (state.message) {
+        setShowMessage(true);
+      }
+      setTasks([{ name: "", status: "TODO" }]);
+      setTimeout(() => {
+        setShowMessage(false);
+      }, 5000);
     }
-    setTasks([{ name: "", status: "TODO" }]);
-    setTimeout(() => {
-      setShowMessage(false)
-    },5000)
-  },[state]);
+  }, [state]);
 
   const [tasks, setTasks] = useState<TaskFormData[]>([
     { name: "", status: "TODO" },
@@ -85,20 +92,22 @@ export default function SubmitPage() {
       newTasks[index].status === "TODO" ? "DONE" : "TODO";
     setTasks(newTasks);
   }
+  const { errors, message, success } = state;
+
   return (
     <div className="px-4">
-      {state.message && showMessage && (
+      {success && message && showMessage && (
         <div
           className={cn(
             "p-4 mb-2 rounded-lg border",
-            state.success
+            success
               ? "bg-primary/10 border-primary text-primary"
               : "bg-destructive/10 border-destructive text-destructive"
           )}
           role="alert"
           aria-live="polite"
         >
-          {state.message}
+          {message}
         </div>
       )}
       <Card className="w-full max-w-sm">
@@ -113,25 +122,29 @@ export default function SubmitPage() {
           <CardContent>
             <div>
               <div className="flex flex-col gap-6">
-                <div className="grid gap-2">
-                  <Label htmlFor="goal-title">Title</Label>
+                <Field data-invalid={!!errors?.name}>
+                  <Label htmlFor="goal-name">Title</Label>
                   <Input
                     name="name"
-                    id="goal-title"
+                    id="goal-name"
                     type="text"
                     placeholder="Graduate from college"
                     required
+                    aria-invalid={!!errors?.name}
                   />
-                </div>
-                <div className="grid gap-2">
-                  <Label htmlFor="description">Description</Label>
+                  <FieldError>{errors?.name}</FieldError>
+                </Field>
+                <Field data-invalid={!!errors?.description}>
+                  <Label htmlFor="goal-description">Description</Label>
                   <Textarea
-                    id="description"
+                    name="description"
+                    id="goal-description"
                     placeholder="Complete my college degree and meet all graduation requirements."
                     required
-                    name="description"
+                    aria-invalid={!!errors?.description}
                   />
-                </div>
+                  <FieldError>{errors?.description}</FieldError>
+                </Field>
                 <div className="grid gap-2">
                   <Label htmlFor="status">Status</Label>
                   <FieldDescription>
@@ -160,30 +173,37 @@ export default function SubmitPage() {
                   <AccordionTrigger>Tasks</AccordionTrigger>
                   <AccordionContent>
                     <div className="grid gap-2">
+                      <FieldError>
+                        {errors?.error && "Tasks must have a valid name."}
+                      </FieldError>
                       {tasks.map((task, index) => (
-                        <div className="flex items-center gap-2" key={index}>
-                          <Checkbox
-                            id="task"
-                            className="size-6 border border-primary/50"
-                            checked={task.status == "DONE"}
-                            onClick={() => handleTaskStatusChange(index)}
-                            value={task.status}
-                          />
-                          <Input
-                            id="task-title"
-                            type="text"
-                            placeholder="Make my registration"
-                            value={task.name}
-                            onChange={(e) => handleTaskInputChange(e, index)}
-                            required
-                          />
-                          <Button
-                            variant="outline"
-                            disabled={tasks.length == 1}
-                            onClick={(e) => removeTask(e, index)}
-                          >
-                            <Trash />
-                          </Button>
+                        <div key={index}>
+                          <div className="flex items-center gap-2">
+                            <Checkbox
+                              id="task"
+                              className="size-6 border border-primary/50"
+                              checked={task.status == "DONE"}
+                              onClick={() => handleTaskStatusChange(index)}
+                              value={task.status}
+                            />
+
+                            <Input
+                              id="task-title"
+                              type="text"
+                              placeholder="Make my registration"
+                              value={task.name}
+                              onChange={(e) => handleTaskInputChange(e, index)}
+                              required
+                            />
+
+                            <Button
+                              variant="outline"
+                              disabled={tasks.length == 1}
+                              onClick={(e) => removeTask(e, index)}
+                            >
+                              <Trash />
+                            </Button>
+                          </div>
                         </div>
                       ))}
                     </div>
