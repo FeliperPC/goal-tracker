@@ -22,7 +22,7 @@ async function main() {
       name: "Learn Prisma",
       description: "Study Prisma with Next.js",
       status: "TODO",
-      userId: null,
+      userId: "user_37FXbmJtlKE3ZsEseZwwJ3BYBsj",
       tasks: {
         create: [
           { name: "Read the documentation", status: "TODO" },
@@ -36,7 +36,7 @@ async function main() {
       name: "Personal Project",
       description: "Build an app with Next.js",
       status: "TODO",
-      userId: null,
+      userId: "user_37FXbmJtlKE3ZsEseZwwJ3BYBsj",
       tasks: { create: [{ name: "Define project scope", status: "TODO" }] },
     },
   });
@@ -45,7 +45,7 @@ async function main() {
       name: "Full Stack Project",
       description: "Build a complete app with Next.js",
       status: "TODO",
-      userId: null,
+      userId: "userIdTest",
       tasks: {
         create: [
           { name: "Define project scope", status: "DONE" },
@@ -60,7 +60,7 @@ async function main() {
       name: "Learn Tailwind",
       description: "Build responsive layouts",
       status: "DONE",
-      userId: null,
+      userId: "user_37FXbmJtlKE3ZsEseZwwJ3BYBsj",
       tasks: {
         create: [
           { name: "Study basic utility classes", status: "DONE" },
@@ -75,7 +75,7 @@ async function main() {
       name: "Authentication with Clerk",
       description: "Implement login and route protection",
       status: "TODO",
-      userId: null,
+      userId: "another user id",
       tasks: {
         create: [
           { name: "Read Clerk documentation", status: "TODO" },
@@ -90,7 +90,7 @@ async function main() {
       name: "Next.js Performance",
       description: "Improve performance and caching",
       status: "DONE",
-      userId: null,
+      userId: "user_37FXbmJtlKE3ZsEseZwwJ3BYBsj",
       tasks: {
         create: [
           { name: "Understand Next.js cache", status: "DONE" },

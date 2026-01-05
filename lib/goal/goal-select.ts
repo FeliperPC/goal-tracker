@@ -9,20 +9,3 @@ export async function getTodoGoals() {
     }
   })
 }
-
-export async function getDoneGoals() {
-  "use cache"
-  return await prisma.goal.findMany({
-    include: { tasks: true },
-    where: {
-      status: "DONE"
-    }
-  })
-}
-
-export async function getAllGoals() {
-  "use cache"
-  return await prisma.goal.findMany({
-    include: { tasks: true },
-  })
-}

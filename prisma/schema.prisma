@@ -12,6 +12,7 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
 model Goal {
   id          Int      @id @default(autoincrement())
   name        String
@@ -19,8 +20,7 @@ model Goal {
   description String
   status      Status
   createdAt   DateTime @default(now())
-  userId      Int?
-  user        User?     @relation(fields: [userId], references: [id])
+  userId      String
 }
 
 model Task {
@@ -30,14 +30,6 @@ model Task {
   goal      Goal     @relation(fields: [goalId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
   status    Status
-}
-
-model User {
-  id        Int      @id @default(autoincrement())
-  name      String
-  email     String
-  createdAt DateTime @default(now())
-  goals     Goal[]
 }
 
 enum Status {

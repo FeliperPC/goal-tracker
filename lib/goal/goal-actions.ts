@@ -85,7 +85,7 @@ export async function addGoalAction(prevState: FormState, formData: FormData) {
         name,
         description: description as string,
         status: status.toUpperCase() as Status,
-        userId: null,
+        userId,
       },
     });
 
