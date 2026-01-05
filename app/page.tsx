@@ -4,7 +4,7 @@ import { Suspense } from "react";
 import Footer from "./components/Home/Footer";
 import GoalProvider from "./components/Goals/GoalProvider";
 
-export default async function Todo() {
+export default async function Home() {
   return (
     <div className="flex flex-col gap-4 px-2">
       <Suspense fallback={<div>Loading info card...</div>}>
