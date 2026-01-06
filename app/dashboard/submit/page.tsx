@@ -32,9 +32,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { TaskFormData } from "@/types/types";
 import { Plus, Trash } from "lucide-react";
 import { useState } from "react";
-import { LoadingSpinner } from "../components/LoadingSpinner";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { LoadingSpinner } from "@/app/components/LoadingSpinner";
 
 export default function SubmitPage() {
   const initialState: FormState = {

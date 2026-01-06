@@ -1,9 +1,9 @@
 import { Badge } from "@/components/ui/badge";
-import { getAllGoals } from "@/lib/goal/goal-select";
+import { getAuthenticatedUserGoals } from "@/lib/goal/goal-select";
 import { Goal } from "@/types/types";
 
 export default async function GoalStatusGroup(){
-  const goals = await getAllGoals()
+  const goals = await getAuthenticatedUserGoals()
   const goalStatus = {
     done: 0,
     todo: 0

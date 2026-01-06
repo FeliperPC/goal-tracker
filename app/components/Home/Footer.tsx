@@ -10,7 +10,7 @@ export default function Footer() {
           asChild
           className="flex h-10 w-full items-center justify-center gap-2 rounded-md bg-primary text-primary-foreground font-semibold text-md shadow-xl"
         >
-          <Link href="/submit">
+          <Link href="dashboard/submit">
             <Plus className="size-5" />
             Add new goal
           </Link>

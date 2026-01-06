@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Manrope } from "next/font/google";
 import "./globals.css";
-import HeaderComponent from "./components/Goals/HeaderComponent";
 import { ClerkProvider } from "@clerk/nextjs";
+import { Suspense } from "react";
 
 const mainrope = Manrope({
   variable: "--font-manrope-sans",
@@ -20,17 +20,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
-      <html lang="en">
-        <body
-          className={`${mainrope.className} antialiased h-screen bg-primary/5`}
-        >
-          <div className="flex flex-col gap-4 py-2">
-            <HeaderComponent />
+    <Suspense>
+      <ClerkProvider>
+        <html lang="en">
+          <body
+            className={`${mainrope.className} antialiased h-screen bg-primary/5`}
+          >
             {children}
-          </div>
-        </body>
-      </html>
-    </ClerkProvider>
+          </body>
+        </html>
+      </ClerkProvider>
+    </Suspense>
   );
 }
