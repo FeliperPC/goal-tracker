@@ -18,7 +18,7 @@ export async function finishGoal(goalId: number) {
       where: { id: goalId },
       data: { status: "DONE" },
     });
-    revalidatePath("/");
+    revalidatePath("/dashboard");
     return {
       success: true,
       message: "Goal set as done successfully!",
@@ -37,7 +37,7 @@ export async function removeGoal(goalId: number) {
     await prisma.goal.delete({
       where: { id: goalId },
     });
-    revalidatePath("/");
+    revalidatePath("/dashboard");
     return {
       success: true,
       message: "Goal removed successfully!",
@@ -120,7 +120,7 @@ export async function addGoalAction(prevState: FormState, formData: FormData) {
       };
     }
 
-    revalidatePath("/");
+    revalidatePath("/dashboard");
 
     return {
       success: true,

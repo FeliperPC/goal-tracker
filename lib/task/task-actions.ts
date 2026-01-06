@@ -24,7 +24,7 @@ export async function updateTask(taskId: number) {
       data,
     });
 
-    revalidatePath("/");
+    revalidatePath("/dashboard");
     return {
       success: true,
       message: "Goal updated successfully!",

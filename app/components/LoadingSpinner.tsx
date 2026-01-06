@@ -16,7 +16,7 @@ export function LoadingSpinner({ color }: { color?: string }) {
     >
       <Loader2
         className="w-6 h-6"
-        style={{ color: color ?? "var(--secondary)" }}
+        style={{ color: color ?? "var(--primary)" }}
       />
     </motion.div>
   );
