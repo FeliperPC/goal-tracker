@@ -1,4 +1,5 @@
 import Logo from "@/app/components/Home/Logo";
+import SingInSkeleton from "@/app/components/Skeletons/singInSkeleton";
 import { SignIn } from "@clerk/nextjs";
 
 export default function SignInComponent() {
@@ -10,7 +11,7 @@ export default function SignInComponent() {
           Track your goals, build better habits, and make progress every day.
         </span>
       </div>
-      <SignIn fallback={<div>Loading login ...</div>}/>
+      <SignIn fallback={<SingInSkeleton />} />
     </section>
   );
 }

@@ -1,9 +1,5 @@
 import { redirect } from "next/navigation";
 
 export default async function Home() {
-  return(
-    <div>
-      Homepage
-    </div>
-  )
+  return null
 }

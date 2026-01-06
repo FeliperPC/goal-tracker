@@ -21,7 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <Suspense>
-      <ClerkProvider afterSignOutUrl={"/sign-in"}>
+      <ClerkProvider afterSignOutUrl={"/sign-in"} signInForceRedirectUrl={"/dashboard"}>
         <html lang="en">
           <body
             className={`${mainrope.className} antialiased h-screen bg-primary/5`}

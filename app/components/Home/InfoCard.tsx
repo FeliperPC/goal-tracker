@@ -12,6 +12,7 @@ import {
 import { auth, currentUser } from "@clerk/nextjs/server";
 
 export default async function InfoCard() {
+  await new Promise(resolve=>setTimeout(resolve,5000));
   const user = await currentUser();
   const response = await fetch("https://zenquotes.io/api/today/", {
     cache: "force-cache",
