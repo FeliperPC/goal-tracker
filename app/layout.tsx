@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Manrope } from "next/font/google";
 import "./globals.css";
-import { ClerkProvider } from "@clerk/nextjs";
 import { Suspense } from "react";
+import { ClerkProvider } from "@/components/clerk-provider";
 
 const mainrope = Manrope({
   variable: "--font-manrope-sans",
@@ -21,7 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <Suspense>
-      <ClerkProvider>
+      <ClerkProvider afterSignOutUrl={"/sign-in"}>
         <html lang="en">
           <body
             className={`${mainrope.className} antialiased h-screen bg-primary/5`}
