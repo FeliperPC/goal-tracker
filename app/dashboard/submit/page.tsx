@@ -114,7 +114,7 @@ export default function SubmitPage() {
       <Card className="w-full max-w-sm">
         <CardHeader>
           <Link
-            href="/"
+            href="/dashboard"
             className="text-primary hover:underline text-sm flex gap-1 mb-4"
           >
             <ArrowLeft className="size-5" />
