@@ -16,3 +16,20 @@ export async function getGoalsByUserId(userId: string) {
     where: { userId },
   });
 }
+
+export async function getGoalById(id: number) {
+  try{
+    const goal = await prisma.goal.findFirst({
+      include: { tasks: true },
+      where: { id },
+    });
+    if(!goal){
+      console.error("goal not found")
+      return false
+    }
+    return goal
+  } catch(error){
+    console.log(error)
+  }
+}
+

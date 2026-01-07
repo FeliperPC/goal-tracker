@@ -1,17 +1,17 @@
 "use client";
-import { finishGoal, removeGoal } from "@/lib/goal/goal-actions";
+import { finishGoalAction, removeGoalAction } from "@/lib/goal/goal-actions";
 import { CheckCheck, Pencil, Trash, X } from "lucide-react";
 import { useState, useTransition } from "react";
 import { LoadingSpinner } from "../LoadingSpinner";
 import DialogConfirmation from "../Dialogs/DialogConfirmation";
+import { redirect } from "next/navigation";
 
 export default function GoalActions({ goalId }: { goalId: number }) {
   const [isPending, startTransition] = useTransition();
   const [action, setAction] = useState<"finish" | "delete">("finish");
   const [isOpen, setIsOpen] = useState(false);
-  const [onConfirm, setOnConfirm] = useState(false);
 
-  function handleFinishGoal() {
+  function handlefinishGoalAction() {
     setAction("finish");
     setIsOpen(true);
   }
@@ -26,15 +26,19 @@ export default function GoalActions({ goalId }: { goalId: number }) {
       case "finish":
         setIsOpen(false);
         startTransition(async () => {
-          await finishGoal(goalId);
+          await finishGoalAction(goalId);
         });
         break;
       default:
         setIsOpen(false);
         startTransition(async () => {
-          await removeGoal(goalId);
+          await removeGoalAction(goalId);
         });
     }
+  }
+
+  function handleEditGoal() {
+    redirect(`dashboard/submit/${goalId}`)
   }
 
   return (
@@ -42,13 +46,14 @@ export default function GoalActions({ goalId }: { goalId: number }) {
       <button
         className="rounded-xl p-2 shadow-md border border-gray-800/20"
         disabled={isPending}
+        onClick={handleEditGoal}
       >
         <Pencil className="size-5 text-gray-500" />
       </button>
       <button
-        className="rounded-xl p-2 text-(--secondary) bg-primary/70 shadow-md flex items-center gap-2 border border-(--secondary)/20"
+        className="rounded-xl p-2 text-secondary bg-primary/70 shadow-md flex items-center gap-2 border border-(--secondary)/20"
         disabled={isPending}
-        onClick={handleFinishGoal}
+        onClick={handlefinishGoalAction}
       >
         {isPending && action == "finish" ? (
           <>

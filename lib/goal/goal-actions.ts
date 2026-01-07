@@ -8,7 +8,7 @@ import { revalidatePath } from "next/cache";
 import { addTasks } from "../task/task-actions";
 import { createTaskSchema } from "@/app/(core)/schemas/task.schema";
 
-export async function finishGoal(goalId: number) {
+export async function finishGoalAction(goalId: number) {
   try {
     await prisma.task.updateMany({
       where: { goalId, status: "TODO" },
@@ -32,7 +32,7 @@ export async function finishGoal(goalId: number) {
   }
 }
 
-export async function removeGoal(goalId: number) {
+export async function removeGoalAction(goalId: number) {
   try {
     await prisma.goal.delete({
       where: { id: goalId },
@@ -79,6 +79,7 @@ export async function addGoalAction(prevState: FormState, formData: FormData) {
     }
 
     const { name, description, status } = validatedGoalData.data;
+    // get goalby id to see if its an update or registration
 
     const newGoal = await prisma.goal.create({
       data: {
@@ -102,7 +103,7 @@ export async function addGoalAction(prevState: FormState, formData: FormData) {
     });
 
     if (result.includes(false)) {
-      await removeGoal(newGoal.id);
+      await removeGoalAction(newGoal.id);
       return {
         success: false,
         errors: { error: ["Tasks must have a valid name."] },
@@ -113,7 +114,7 @@ export async function addGoalAction(prevState: FormState, formData: FormData) {
     const taskInsertResult = await addTasks(tasksArray, newGoal.id);
 
     if (!taskInsertResult.success) {
-      await removeGoal(newGoal.id);
+      await removeGoalAction(newGoal.id);
       return {
         success: false,
         message: "Goal created but failed to add tasks.",

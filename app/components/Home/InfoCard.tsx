@@ -1,3 +1,4 @@
+"use server";
 import { Quote } from "@/types/types";
 import { dateInfo } from "../../utils/callendarInfo";
 import {
@@ -7,17 +8,13 @@ import {
   CardDescription,
   CardAction,
   CardContent,
-  CardFooter,
 } from "@/components/ui/card";
-import { auth, currentUser } from "@clerk/nextjs/server";
+import { currentUser } from "@clerk/nextjs/server";
+import getDailyQuote from "@/lib/utils/actions";
 
 export default async function InfoCard() {
   const user = await currentUser();
-  const response = await fetch("https://zenquotes.io/api/today/", {
-    cache: "force-cache",
-  });
-
-  const data: Quote[] = await response.json();
+  const data: Quote[] = await getDailyQuote();
   return (
     <section>
       <Card className="bg-primary shadow-lg">
