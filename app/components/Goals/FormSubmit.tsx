@@ -143,6 +143,9 @@ export default function GoalSubmit({ goal }: { goal?: Goal }) {
           </CardDescription>
         </CardHeader>
         <form action={formAction}>
+          {goalOnEdit && (
+            <input name="id" hidden defaultValue={goalOnEdit.id}></input>
+          )}
           <CardContent>
             <div>
               <div className="flex flex-col gap-6">
@@ -233,7 +236,6 @@ export default function GoalSubmit({ goal }: { goal?: Goal }) {
                               onChange={(e) => handleTaskInputChange(e, index)}
                               required
                             />
-
                             <Button
                               variant="outline"
                               disabled={tasks.length == 1}
@@ -269,7 +271,7 @@ export default function GoalSubmit({ goal }: { goal?: Goal }) {
               ) : (
                 <>
                   <Sparkles />
-                  Create goal
+                  {goalOnEdit ? "Update goal" : "Create goal"}
                 </>
               )}
             </Button>

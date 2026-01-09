@@ -64,3 +64,32 @@ export async function addTasks(tasks: Task[], goalId: number) {
     };
   }
 }
+
+export async function updateTasks(tasks: Task[], goalId: number){
+  const data: any = [];
+  tasks.map(({ name, status }) => {
+    data.push({
+      name,
+      status,
+      goalId,
+    });
+  });
+  try {
+    await prisma.task.deleteMany({
+      where:{goalId}
+    });
+    await prisma.task.createMany({
+      data,
+    });
+    return {
+      success: true,
+      message: "Tasks updated successfully!",
+    };
+  } catch (error) {
+    return {
+      success: false,
+      error: error,
+      message: "Error on updating tasks",
+    };
+  }
+}

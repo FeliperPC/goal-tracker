@@ -5,7 +5,7 @@ import prisma from "@/lib/prisma";
 import { FormState, Status } from "@/types/types";
 import { auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
-import { addTasks } from "../task/task-actions";
+import { addTasks, updateTasks } from "../task/task-actions";
 import { createTaskSchema } from "@/app/(core)/schemas/task.schema";
 
 export async function finishGoalAction(goalId: number) {
@@ -78,9 +78,52 @@ export async function addGoalAction(prevState: FormState, formData: FormData) {
       };
     }
 
-    const { name, description, status } = validatedGoalData.data;
-    // get goalby id to see if its an update or registration
+    const tasksArray = JSON.parse(formDataValues.tasks as string);
+    const result: boolean[] = [];
+    tasksArray.forEach((task: any) => {
+      result.push(
+        createTaskSchema.safeParse({
+          name: task.name,
+          status: task.status,
+        }).success
+      );
+    });
 
+    if (result.includes(false)) {
+      return {
+        success: false,
+        errors: { error: ["Tasks must have a valid name."] },
+        message: " Invalid task data provided.",
+      };
+    }
+
+    const { name, description, status } = validatedGoalData.data;
+    if (formDataValues.id) {
+      const newGoal = await prisma.goal.update({
+        where: { id: Number(formDataValues.id) },
+        data: {
+          name,
+          description: description as string,
+          status: status.toUpperCase() as Status,
+        },
+      });
+
+      const taskInsertResult = await updateTasks(tasksArray, newGoal.id);
+
+      if (!taskInsertResult.success) {
+        return {
+          success: false,
+          message: "Goal updated but failed to update tasks.",
+        };
+      }
+
+      revalidatePath("/dashboard");
+
+      return {
+        success: true,
+        message: "Goal updated successfully!",
+      };
+    }
     const newGoal = await prisma.goal.create({
       data: {
         name,
@@ -89,27 +132,6 @@ export async function addGoalAction(prevState: FormState, formData: FormData) {
         userId,
       },
     });
-
-    const tasksArray = JSON.parse(formDataValues.tasks as string);
-    const result: boolean[] = [];
-    tasksArray.forEach((task: any) => {
-      result.push(
-        createTaskSchema.safeParse({
-          name: task.name,
-          goalId: 3,
-          status: task.status,
-        }).success
-      );
-    });
-
-    if (result.includes(false)) {
-      await removeGoalAction(newGoal.id);
-      return {
-        success: false,
-        errors: { error: ["Tasks must have a valid name."] },
-        message:" Invalid task data provided.",
-      };
-    }
 
     const taskInsertResult = await addTasks(tasksArray, newGoal.id);
 
