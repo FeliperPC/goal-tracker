@@ -25,7 +25,7 @@ export function GoalCard({ goal }: { goal: Goal }) {
 
   return (
     <div
-      className="flex flex-col border border-slate-300 px-4 py-4 bg-slate-100/50 rounded-xl shadow text-lg gap-3 justify-start"
+      className="flex flex-col border border-slate-300 p-4 bg-slate-100/50 rounded-xl shadow text-lg gap-3 justify-start"
       key={goal.id}
     >
       <header>
