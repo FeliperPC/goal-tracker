@@ -5,8 +5,6 @@ import prisma from "@/lib/prisma";
 import { FormState, Status } from "@/types/types";
 import { auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
-import { addTasks, updateTasks } from "../task/task-actions";
-import { createTaskSchema } from "@/app/(core)/schemas/task.schema";
 
 export async function finishGoalAction(goalId: number) {
   try {
@@ -61,93 +59,72 @@ export async function addGoalAction(prevState: FormState, formData: FormData) {
         message: "Unauthorized. You must be logged in to create a goal.",
       };
     }
+
     const formDataValues = Object.fromEntries(formData.entries());
 
-    const validatedGoalData = createGoalSchema.safeParse({
+    const rawData = {
+      id: formDataValues.id,
       name: formDataValues.name,
       description: formDataValues.description,
-      status: formDataValues.goalStatus,
-    });
+      status: formDataValues.status,
+      tasks: JSON.parse((formDataValues.tasks as string) || "[]"),
+    };
 
-    if (!validatedGoalData.success) {
-      const errors = validatedGoalData.error.flatten().fieldErrors;
+    const validated = createGoalSchema.safeParse(rawData);
+
+    if (!validated.success) {
       return {
         success: false,
-        errors: errors,
+        errors: validated.error.flatten().fieldErrors,
         message: "Invalid data",
       };
     }
 
-    const tasksArray = JSON.parse(formDataValues.tasks as string);
-    const result: boolean[] = [];
-    tasksArray.forEach((task: any) => {
-      result.push(
-        createTaskSchema.safeParse({
-          name: task.name,
-          status: task.status,
-        }).success
-      );
-    });
+    const { id, name, description, status, tasks } = validated.data;
 
-    if (result.includes(false)) {
-      return {
-        success: false,
-        errors: { error: ["Tasks must have a valid name."] },
-        message: " Invalid task data provided.",
-      };
-    }
-
-    const { name, description, status } = validatedGoalData.data;
-    if (formDataValues.id) {
-      const newGoal = await prisma.goal.update({
-        where: { id: Number(formDataValues.id) },
-        data: {
-          name,
-          description: description as string,
-          status: status.toUpperCase() as Status,
-        },
-      });
-
-      const taskInsertResult = await updateTasks(tasksArray, newGoal.id);
-
-      if (!taskInsertResult.success) {
-        return {
-          success: false,
-          message: "Goal updated but failed to update tasks.",
-        };
-      }
-
-      revalidatePath("/dashboard");
-
-      return {
-        success: true,
-        message: "Goal updated successfully!",
-      };
-    }
-    const newGoal = await prisma.goal.create({
-      data: {
+    await prisma.$transaction(async (tx) => {
+      const goalData = {
         name,
-        description: description as string,
+        description,
         status: status.toUpperCase() as Status,
         userId,
-      },
-    });
-
-    const taskInsertResult = await addTasks(tasksArray, newGoal.id);
-
-    if (!taskInsertResult.success) {
-      await removeGoalAction(newGoal.id);
-      return {
-        success: false,
-        message: "Goal created but failed to add tasks.",
       };
-    }
 
+      let goalId: number;
+
+      if (id) {
+        goalId = Number(id);
+        await tx.goal.update({ where: { id: goalId }, data: goalData });
+        await tx.task.deleteMany({ where: { goalId } });
+      } else {
+        const newGoal = await tx.goal.create({ data: goalData });
+        goalId = newGoal.id;
+      }
+
+      if (tasks.length > 0) {
+        const data = tasks.map((task) => ({
+          name: task.name,
+          status: task.status as Status,
+          goalId,
+        }));
+        await tx.task.createMany({
+          data,
+        });
+        if (status.toUpperCase() === "DONE") {
+          await tx.task.updateMany({
+            where: { goalId: Number(id) },
+            data: { status: "DONE" },
+          });
+        }
+      }
+    });
     revalidatePath("/dashboard");
-
+    const successMessage = id
+      ? "Goal updated successfully!"
+      : "Goal created successfully!";
     return {
       success: true,
-      message: "Goal created successfully!",
+      message: successMessage,
     };
   } catch (error) {
     console.log(error);

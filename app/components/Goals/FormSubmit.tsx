@@ -183,7 +183,7 @@ export default function GoalSubmit({ goal }: { goal?: Goal }) {
                   <RadioGroup
                     defaultValue="todo"
                     className="mt-2"
-                    name="goalStatus"
+                    name="status"
                   >
                     <div className="flex items-center gap-3">
                       <RadioGroupItem
@@ -266,7 +266,8 @@ export default function GoalSubmit({ goal }: { goal?: Goal }) {
             <Button type="submit" className="w-full">
               {isPending ? (
                 <>
-                  <LoadingSpinner /> Creating ...
+                  <LoadingSpinner />{" "}
+                  {goalOnEdit ? "Updating ..." : "Creating ..."}
                 </>
               ) : (
                 <>

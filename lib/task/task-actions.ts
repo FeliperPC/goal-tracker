@@ -3,9 +3,8 @@
 import { revalidatePath } from "next/cache";
 import { getTaskById } from "./task-select";
 import prisma from "../prisma";
-import { Task } from "@/types/types";
 
-export async function updateTask(taskId: number) {
+export async function updateTaskStatus(taskId: number) {
   try {
     const task = await getTaskById(taskId);
 
@@ -17,7 +16,7 @@ export async function updateTask(taskId: number) {
       };
     }
 
-    const taskOnUpdate = await prisma.task.update({
+    await prisma.task.update({
       where: {
         id: Number(taskId),
       },
@@ -35,61 +34,6 @@ export async function updateTask(taskId: number) {
       success: false,
       errors: { error: ["Error on updating goal"] },
       message: "Failed to update goal",
-    };
-  }
-}
-
-export async function addTasks(tasks: Task[], goalId: number) {
-  const data: any = [];
-  tasks.map(({ name, status }) => {
-    data.push({
-      name,
-      status,
-      goalId,
-    });
-  });
-  try {
-    await prisma.task.createMany({
-      data,
-    });
-    return {
-      success: true,
-      message: "Tasks added successfully!",
-    };
-  } catch (error) {
-    return {
-      success: false,
-      error: error,
-      message: "Error on adding tasks",
-    };
-  }
-}
-
-export async function updateTasks(tasks: Task[], goalId: number){
-  const data: any = [];
-  tasks.map(({ name, status }) => {
-    data.push({
-      name,
-      status,
-      goalId,
-    });
-  });
-  try {
-    await prisma.task.deleteMany({
-      where:{goalId}
-    });
-    await prisma.task.createMany({
-      data,
-    });
-    return {
-      success: true,
-      message: "Tasks updated successfully!",
-    };
-  } catch (error) {
-    return {
-      success: false,
-      error: error,
-      message: "Error on updating tasks",
     };
   }
 }
