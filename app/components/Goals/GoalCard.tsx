@@ -6,6 +6,7 @@ import { Goal, Task } from "@/types/types";
 import { useMemo, useState } from "react";
 import GoalActions from "./GoalActions";
 import TaskItem from "../Tasks/TaskItem";
+import { cn } from "@/lib/utils";
 
 export function GoalCard({ goal }: { goal: Goal }) {
   const [showTasks, setShowTasks] = useState(false);
@@ -25,12 +26,12 @@ export function GoalCard({ goal }: { goal: Goal }) {
 
   return (
     <div
-      className="flex flex-col border border-slate-300 p-4 bg-slate-100/50 rounded-xl shadow text-lg gap-3 justify-start"
+      className="flex flex-col border border-slate-300 p-4 lg:p-6 bg-slate-100/50 rounded-xl shadow text-lg gap-3 justify-start h-fit"
       key={goal.id}
     >
       <header>
         <div className="flex justify-between">
-          <p>{goal.name}</p>
+          <p className="lg:text-xl">{goal.name}</p>
           <AnimatePresence mode="wait">
             <motion.button
               key={showTasks ? "down" : "up"}
@@ -53,7 +54,7 @@ export function GoalCard({ goal }: { goal: Goal }) {
             </motion.button>
           </AnimatePresence>
         </div>
-        <p className="text-sm text-gray-600">{goal.description}</p>
+        <p className="text-sm text-gray-600 lg:text-lg">{goal.description}</p>
       </header>
       {goal.status === "TODO" && (
         <div className="py-2 border border-slate-400 h-2 rounded-2xl relative">
@@ -82,7 +83,7 @@ export function GoalCard({ goal }: { goal: Goal }) {
             height: "0px",
             opacity: 0,
           }}
-          className={`${showTasks ? "block" : "hidden"}`}
+          className={cn("lg:overflow-y-hidden",showTasks ? "block":"hidden")}
         >
           <div className="flex flex-col gap-2">
             {goal.tasks.map((task: Task) => (

@@ -9,20 +9,20 @@ export default function NotFound() {
         <Logo grow />
       </div>
       <div className="flex flex-col justify-center items-center">
-        <h1 className="text-7xl font-bold mb-8 text-primary/60 text-shadow-2xs">404</h1>
+        <h1 className="text-7xl font-bold mb-8 text-primary/60 text-shadow-2xs lg:text-8xl">404</h1>
         <div className="text-center">
-          <h3 className="text-xl text-gray-800 font-semibold">
+          <h3 className="text-xl text-gray-800 font-semibold lg:text-2xl">
             Oops, This page Not Found !
           </h3>
-          <p className="text-gray-500">The link might be corrupted</p>
+          <p className="text-gray-500 lg:text-lg">The link might be corrupted</p>
         </div>
-        <p className="text-sm font-light mt-2">
+        <p className="text-sm font-light mt-2 lg:text-md">
           or the page may have been removed
         </p>
       </div>
       <div className="text-center mt-8">
         <Button asChild>
-          <Link href={"/dashboard"}>Go back home</Link>
+          <Link href={"/dashboard"} className="lg:text-lg">Go back home</Link>
         </Button>
       </div>
     </div>

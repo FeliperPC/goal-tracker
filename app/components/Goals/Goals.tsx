@@ -13,7 +13,7 @@ export default function Goals({ goals }: { goals: Goal[] }) {
         <Button
           onClick={() => setGoalStatusView("TODO")}
           className={cn(
-            "w-fit flex-1 py-4",
+            "w-fit flex-1 py-4 lg:text-xl lg:py-6 lg:font-semibold",
             goalStatusView == "DONE" ? "bg-primary/50" : "bg-primary"
           )}
         >
@@ -21,12 +21,12 @@ export default function Goals({ goals }: { goals: Goal[] }) {
         </Button>
         <Button
           onClick={() => setGoalStatusView("DONE")}
-          className={cn("w-fit flex-1 py-4", goalStatusView == "TODO" ? "bg-primary/50" : "bg-primary")}
+          className={cn("w-fit flex-1 py-4 lg:text-xl lg:py-6 lg:font-semibold", goalStatusView == "TODO" ? "bg-primary/50" : "bg-primary")}
         >
           Done
         </Button>
       </div>
-      <div className="overflow-auto flex flex-col gap-3 mb-20">
+      <div className="overflow-auto flex flex-col gap-3 mb-20 lg:grid lg:grid-cols-4">
         {goals
           .filter((goal) => goal.status === goalStatusView)
           .map((goal) => (

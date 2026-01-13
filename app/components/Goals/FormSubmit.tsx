@@ -123,17 +123,17 @@ export default function GoalSubmit({ goal }: { goal?: Goal }) {
 
   return (
     <div className="px-4">
-      <Card className="w-full max-w-sm">
+      <Card className="w-full max-w-sm lg:max-w-full lg:px-6 lg:py-10">
         <CardHeader>
           <a
             href="/dashboard"
-            className="text-primary hover:underline text-sm flex gap-1 mb-4"
+            className="text-primary hover:underline text-sm flex gap-1 mb-4 lg:text-lg items-center"
           >
-            <ArrowLeft className="size-5" />
+            <ArrowLeft className="size-5 lg:size-4" />
             Back to home
           </a>
-          <CardTitle>{goalOnEdit ? "Update Goal" : "Create Goal"}</CardTitle>
-          <CardDescription>
+          <CardTitle className="lg:text-2xl">{goalOnEdit ? "Update Goal" : "Create Goal"}</CardTitle>
+          <CardDescription className="lg:text-lg">
             {goalOnEdit
               ? "Update this goal’s information."
               : "Fill in the details below to create a new goal. All fields are required."}
@@ -146,45 +146,50 @@ export default function GoalSubmit({ goal }: { goal?: Goal }) {
           <CardContent>
             <div>
               <div className="flex flex-col gap-6">
-                <Field data-invalid={!!errors?.name}>
-                  <Label htmlFor="goal-name">Title</Label>
-                  <Input
-                    name="name"
-                    id="goal-name"
-                    type="text"
-                    placeholder="Graduate from college"
-                    required
-                    aria-invalid={!!errors?.name}
-                    defaultValue={goalOnEdit ? goalOnEdit.name : ""}
-                  />
-                  <FieldError>{errors?.name}</FieldError>
-                </Field>
-                <Field data-invalid={!!errors?.description}>
-                  <Label htmlFor="goal-description">Description</Label>
-                  <Textarea
-                    name="description"
-                    id="goal-description"
-                    placeholder="Complete my college degree and meet all graduation requirements."
-                    required
-                    defaultValue={goalOnEdit ? goalOnEdit.description : ""}
-                    aria-invalid={!!errors?.description}
-                  />
-                  <FieldError>{errors?.description}</FieldError>
-                </Field>
+                <div className="flex flex-col gap-6 lg:flex-row">
+                  <Field data-invalid={!!errors?.name}>
+                    <Label htmlFor="goal-name" className="lg:text-lg">Title</Label>
+                    <Input
+                      className="lg:text-lg"
+                      name="name"
+                      id="goal-name"
+                      type="text"
+                      placeholder="Graduate from college"
+                      required
+                      aria-invalid={!!errors?.name}
+                      defaultValue={goalOnEdit ? goalOnEdit.name : ""}
+                    />
+                    <FieldError>{errors?.name}</FieldError>
+                  </Field>
+                  <Field data-invalid={!!errors?.description}>
+                    <Label htmlFor="goal-description" className="lg:text-lg">Description</Label>
+                    <Textarea
+                      className="lg:text-lg"
+                      name="description"
+                      id="goal-description"
+                      placeholder="Complete my college degree and meet all graduation requirements."
+                      required
+                      defaultValue={goalOnEdit ? goalOnEdit.description : ""}
+                      aria-invalid={!!errors?.description}
+                    />
+                    <FieldError>{errors?.description}</FieldError>
+                  </Field>
+                </div>
                 <div className="grid gap-2">
-                  <Label htmlFor="status">Status</Label>
-                  <FieldDescription>
+                  <Label htmlFor="status" className="lg:text-lg">Status</Label>
+                  <FieldDescription className="lg:text-lg">
                     Marking a goal as completed will automatically mark all
                     related tasks as completed.
                   </FieldDescription>
                   <RadioGroup
                     defaultValue="todo"
-                    className="mt-2"
+                    className="mt-2 lg:flex"
                     name="status"
                   >
                     <div className="flex items-center gap-3">
                       <RadioGroupItem
                         value="todo"
+                        className="lg:text-lg cursor-pointer"
                         id="goal-todo"
                         defaultChecked={
                           goalOnEdit ? goalOnEdit.status == "TODO" : false
@@ -195,6 +200,7 @@ export default function GoalSubmit({ goal }: { goal?: Goal }) {
                     <div className="flex items-center gap-3">
                       <RadioGroupItem
                         value="done"
+                        className="lg:text-lg cursor-pointer"
                         id="goal-done"
                         defaultChecked={
                           goalOnEdit ? goalOnEdit.status == "DONE" : false
@@ -204,7 +210,7 @@ export default function GoalSubmit({ goal }: { goal?: Goal }) {
                     </div>
                   </RadioGroup>
                 </div>
-                <FieldSeparator />
+                <FieldSeparator className="lg:hidden"/>
               </div>
               <Accordion
                 type="single"
@@ -213,7 +219,7 @@ export default function GoalSubmit({ goal }: { goal?: Goal }) {
                 onValueChange={toggleAccordionEntry}
               >
                 <AccordionItem value="item-1">
-                  <AccordionTrigger>Tasks</AccordionTrigger>
+                  <AccordionTrigger className="lg:text-lg">Tasks</AccordionTrigger>
                   <AccordionContent>
                     <div className="grid gap-2">
                       <FieldError>
@@ -231,6 +237,7 @@ export default function GoalSubmit({ goal }: { goal?: Goal }) {
                             />
 
                             <Input
+                              className="lg:text-lg"
                               id="task-title"
                               type="text"
                               placeholder="Make my registration"
@@ -242,6 +249,7 @@ export default function GoalSubmit({ goal }: { goal?: Goal }) {
                               variant="outline"
                               disabled={tasks.length == 1}
                               onClick={(e) => removeTask(e, index)}
+                              className="cursor-pointer"
                             >
                               <Trash />
                             </Button>
@@ -252,7 +260,7 @@ export default function GoalSubmit({ goal }: { goal?: Goal }) {
                     <div className="w-full flex justify-center mt-4">
                       <Button
                         variant="outline"
-                        className="w-full"
+                        className="w-full lg:text-lg lg:w-80 cursor-pointer"
                         onClick={addTask}
                       >
                         <Plus />
@@ -265,7 +273,7 @@ export default function GoalSubmit({ goal }: { goal?: Goal }) {
             </div>
           </CardContent>
           <CardFooter className="flex-col gap-2">
-            <Button type="submit" className="w-full">
+            <Button type="submit" className="w-full lg:w-auto lg:self-end lg:text-lg lg:font-semibold cursor-pointer">
               {isPending ? (
                 <>
                   <LoadingSpinner />{" "}
@@ -273,7 +281,7 @@ export default function GoalSubmit({ goal }: { goal?: Goal }) {
                 </>
               ) : (
                 <>
-                  <Sparkles />
+                  <Sparkles className="lg:size-4"/>
                   {goalOnEdit ? "Update goal" : "Create goal"}
                 </>
               )}

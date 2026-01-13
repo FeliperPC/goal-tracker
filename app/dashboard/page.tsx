@@ -10,7 +10,7 @@ import GoalSectionSkeleton from "../components/Skeletons/goalSectionSkeleton";
 export default async function Home() {
   return (
     <div className="flex flex-col gap-4 px-2">
-      <Suspense fallback={<InfoCardSkeleton/>}>
+      <Suspense fallback={<InfoCardSkeleton />}>
         <InfoCard />
       </Suspense>
       <Suspense fallback={<GoalOverviewSkeleton />}>

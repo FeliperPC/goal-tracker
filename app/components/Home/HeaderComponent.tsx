@@ -10,7 +10,7 @@ import Logo from "./Logo";
 export default function HeaderComponent() {
   return (
     <header className="flex justify-between items-center px-4 mt-2">
-      <Logo />
+      <Logo grow />
       <Suspense
         fallback={
           <div>

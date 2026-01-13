@@ -41,7 +41,7 @@ export default function TaskItem({
         ${
           goalStatus === "DONE" ? "text-gray-400 line-through" : "text-gray-800"
         }
-        text-sm`}
+        text-sm lg:text-lg`}
       >
         {name}
       </p>

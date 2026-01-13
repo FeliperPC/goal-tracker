@@ -19,17 +19,17 @@ export default async function InfoCard() {
     <section>
       <Card className="bg-primary shadow-lg">
         <CardHeader>
-          <CardTitle className="text-white">Hi {user?.firstName} !</CardTitle>
-          <CardDescription className="text-slate-300">
+          <CardTitle className="text-white lg:text-xl">Hi {user?.firstName} !</CardTitle>
+          <CardDescription className="text-slate-300 lg:text-lg">
             Here&apos;s an inspiration for today
           </CardDescription>
-          <CardAction className="text-sm text-slate-300">
+          <CardAction className="text-sm text-slate-300 lg:text-lg">
             {dateInfo.month}, {dateInfo.day} {dateInfo.year}
           </CardAction>
         </CardHeader>
-        <CardContent className="italic font-semibold text-white">
+        <CardContent className="italic font-semibold text-white lg:text-lg">
           <p>{data[0].q}</p>
-          <p className="text-slate-300 text-sm">by {data[0].a}</p>
+          <p className="text-slate-300 text-sm lg:text-lg">by {data[0].a}</p>
         </CardContent>
       </Card>
     </section>
