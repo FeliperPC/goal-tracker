@@ -1,4 +1,4 @@
-import { Status, Task } from "@/types/types";
+import { Status } from "@/types/types";
 import { Check } from "lucide-react";
 import { useTransition } from "react";
 import { updateTaskStatus } from "@/lib/task/task-actions";
@@ -7,15 +7,11 @@ import { LoadingSpinner } from "../LoadingSpinner";
 export default function TaskItem({
   id,
   name,
-  goalId,
-  createdAt,
   status,
   goalStatus,
 }: {
   id: number;
   name: string;
-  goalId: number;
-  createdAt: Date;
   status: Status;
   goalStatus: string;
 }) {

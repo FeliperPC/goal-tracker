@@ -21,7 +21,7 @@ export default async function InfoCard() {
         <CardHeader>
           <CardTitle className="text-white">Hi {user?.firstName} !</CardTitle>
           <CardDescription className="text-slate-300">
-            Here's an inspiration for today
+            Here&apos;s an inspiration for today
           </CardDescription>
           <CardAction className="text-sm text-slate-300">
             {dateInfo.month}, {dateInfo.day} {dateInfo.year}

@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { ArrowDown, InboxIcon, Mailbox, Target } from "lucide-react"
+import { ArrowDown, InboxIcon } from "lucide-react"
 import Link from "next/link";
 
 export default function EmptyGoalsView() {

@@ -38,6 +38,9 @@ import { toast } from "sonner";
 
 export default function GoalSubmit({ goal }: { goal?: Goal }) {
   const [goalOnEdit, setGoalOnEdit] = useState<Goal>();
+  const [tasks, setTasks] = useState<TaskFormData[]>([
+    { name: "", status: "TODO" },
+  ]);
   const [accordionValue, setAccordionValue] = useState<string>("");
   const initialState: FormState = {
     success: false,
@@ -77,10 +80,6 @@ export default function GoalSubmit({ goal }: { goal?: Goal }) {
       setTasks(formTasks);
     }
   }, [goal]);
-
-  const [tasks, setTasks] = useState<TaskFormData[]>([
-    { name: "", status: "TODO" },
-  ]);
 
   function addTask(e: any) {
     e.preventDefault();
