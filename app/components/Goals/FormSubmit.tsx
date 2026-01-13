@@ -12,7 +12,7 @@ import {
 import { ArrowLeft, Sparkles } from "lucide-react";
 import { addGoalAction } from "@/lib/goal/goal-actions";
 import { useActionState, useEffect } from "react";
-import { FormState, Goal, Task } from "@/types/types";
+import { FormState, Goal } from "@/types/types";
 import {
   Accordion,
   AccordionContent,
@@ -33,12 +33,12 @@ import { Textarea } from "@/components/ui/textarea";
 import { TaskFormData } from "@/types/types";
 import { Plus, Trash } from "lucide-react";
 import { useState } from "react";
-import { cn } from "@/lib/utils";
-import Link from "next/link";
 import { LoadingSpinner } from "@/app/components/LoadingSpinner";
+import { toast } from "sonner";
 
 export default function GoalSubmit({ goal }: { goal?: Goal }) {
   const [goalOnEdit, setGoalOnEdit] = useState<Goal>();
+  const [accordionValue, setAccordionValue] = useState<string>("");
   const initialState: FormState = {
     success: false,
     errors: undefined,
@@ -49,17 +49,19 @@ export default function GoalSubmit({ goal }: { goal?: Goal }) {
     initialState
   );
 
-  const [showMessage, setShowMessage] = useState(false);
-
   useEffect(() => {
+    if (!state.message) return;
+
+    setAccordionValue("");
+
     if (state.success) {
-      if (state.message) {
-        setShowMessage(true);
+      if (!goal) {
+        setTasks([{ name: "", status: "TODO" }]);
       }
-      setTasks([{ name: "", status: "TODO" }]);
-      setTimeout(() => {
-        setShowMessage(false);
-      }, 5000);
+      toast.success(state.message);
+    } else {
+      console.log("entrou no else");
+      toast.warning(state.message);
     }
   }, [state]);
 
@@ -108,33 +110,29 @@ export default function GoalSubmit({ goal }: { goal?: Goal }) {
       newTasks[index].status === "TODO" ? "DONE" : "TODO";
     setTasks(newTasks);
   }
-  const { errors, message, success } = state;
+
+  function toggleAccordionEntry() {
+    switch (accordionValue) {
+      case "":
+        setAccordionValue("item-1");
+        break;
+      default:
+        setAccordionValue("");
+    }
+  }
+  const { errors } = state;
 
   return (
     <div className="px-4">
-      {success && message && showMessage && (
-        <div
-          className={cn(
-            "p-4 mb-2 rounded-lg border",
-            success
-              ? "bg-primary/10 border-primary text-primary"
-              : "bg-destructive/10 border-destructive text-destructive"
-          )}
-          role="alert"
-          aria-live="polite"
-        >
-          {message}
-        </div>
-      )}
       <Card className="w-full max-w-sm">
         <CardHeader>
-          <Link
+          <a
             href="/dashboard"
             className="text-primary hover:underline text-sm flex gap-1 mb-4"
           >
             <ArrowLeft className="size-5" />
             Back to home
-          </Link>
+          </a>
           <CardTitle>{goalOnEdit ? "Update Goal" : "Create Goal"}</CardTitle>
           <CardDescription>
             {goalOnEdit
@@ -209,7 +207,12 @@ export default function GoalSubmit({ goal }: { goal?: Goal }) {
                 </div>
                 <FieldSeparator />
               </div>
-              <Accordion type="single" collapsible>
+              <Accordion
+                type="single"
+                collapsible
+                value={accordionValue}
+                onValueChange={toggleAccordionEntry}
+              >
                 <AccordionItem value="item-1">
                   <AccordionTrigger>Tasks</AccordionTrigger>
                   <AccordionContent>

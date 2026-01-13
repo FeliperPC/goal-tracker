@@ -25,7 +25,7 @@ export async function finishGoalAction(goalId: number) {
     return {
       success: false,
       errors: { error: ["Error on deleting goal"] },
-      message: "Failed to delete goal",
+      message: "Failed on finish goal",
     };
   }
 }
@@ -45,7 +45,7 @@ export async function removeGoalAction(goalId: number) {
     return {
       success: false,
       errors: { error: ["Error on deleting goal"] },
-      message: "Failed to delete goal",
+      message: "Failed to remove goal",
     };
   }
 }
@@ -76,7 +76,7 @@ export async function addGoalAction(prevState: FormState, formData: FormData) {
       return {
         success: false,
         errors: validated.error.flatten().fieldErrors,
-        message: "Invalid data",
+        message: "Invalid form data.",
       };
     }
 

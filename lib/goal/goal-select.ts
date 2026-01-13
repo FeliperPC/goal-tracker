@@ -1,5 +1,6 @@
 import prisma from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
+import { notFound } from "next/navigation";
 
 export async function getAuthenticatedUserGoals() {
   const { userId } = await auth();
@@ -12,24 +13,20 @@ export async function getAuthenticatedUserGoals() {
 export async function getGoalsByUserId(userId: string) {
   "use cache";
   return await prisma.goal.findMany({
-    include: { tasks: true },
+    include: { tasks: { orderBy: { name: "asc" } } },
     where: { userId },
   });
 }
 
 export async function getGoalById(id: number) {
-  try{
-    const goal = await prisma.goal.findFirst({
-      include: { tasks: true },
-      where: { id },
-    });
-    if(!goal){
-      console.error("goal not found")
-      return false
-    }
-    return goal
-  } catch(error){
-    console.log(error)
-  }
-}
+  const goal = await prisma.goal.findFirst({
+    include: { tasks: true },
+    where: { id },
+  });
 
+  if (!goal) {
+    notFound();
+  }
+
+  return goal;
+}

@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import HeaderComponent from "../components/Home/HeaderComponent";
+import { Toaster } from "sonner";
 
 export default function RootLayout({
   children,
@@ -11,6 +12,7 @@ export default function RootLayout({
       <Suspense>
         <HeaderComponent />
         {children}
+        <Toaster duration={5000} richColors />
       </Suspense>
     </div>
   );
