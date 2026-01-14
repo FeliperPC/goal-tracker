@@ -50,7 +50,11 @@ export function GoalCard({ goal }: { goal: Goal }) {
               className="text-gray-600"
               onClick={() => setShowTasks(!showTasks)}
             >
-              {showTasks ? <ChevronUp /> : <ChevronDown />}
+              {showTasks ? (
+                <ChevronUp className="hover:bg-primary/10 rounded-full p-1 size-8 cursor-pointer" />
+              ) : (
+                <ChevronDown className="hover:bg-primary/10 rounded-full p-1 size-8 cursor-pointer" />
+              )}
             </motion.button>
           </AnimatePresence>
         </div>
@@ -83,9 +87,9 @@ export function GoalCard({ goal }: { goal: Goal }) {
             height: "0px",
             opacity: 0,
           }}
-          className={cn("lg:overflow-y-hidden",showTasks ? "block":"hidden")}
+          className={cn("lg:overflow-y-hidden", showTasks ? "block" : "hidden")}
         >
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2 lg:overflow-hidden">
             {goal.tasks.map((task: Task) => (
               <TaskItem {...task} key={task.id} goalStatus={goal.status} />
             ))}

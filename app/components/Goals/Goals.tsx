@@ -13,7 +13,7 @@ export default function Goals({ goals }: { goals: Goal[] }) {
         <Button
           onClick={() => setGoalStatusView("TODO")}
           className={cn(
-            "w-fit flex-1 py-4 lg:text-xl lg:py-6 lg:font-semibold",
+            "w-fit flex-1 py-4 lg:text-xl lg:py-6 lg:font-semibold cursor-pointer",
             goalStatusView == "DONE" ? "bg-primary/50" : "bg-primary"
           )}
         >
@@ -21,7 +21,7 @@ export default function Goals({ goals }: { goals: Goal[] }) {
         </Button>
         <Button
           onClick={() => setGoalStatusView("DONE")}
-          className={cn("w-fit flex-1 py-4 lg:text-xl lg:py-6 lg:font-semibold", goalStatusView == "TODO" ? "bg-primary/50" : "bg-primary")}
+          className={cn("w-fit flex-1 py-4 lg:text-xl lg:py-6 lg:font-semibold cursor-pointer", goalStatusView == "TODO" ? "bg-primary/50" : "bg-primary")}
         >
           Done
         </Button>

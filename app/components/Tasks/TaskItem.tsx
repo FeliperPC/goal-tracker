@@ -24,14 +24,13 @@ export default function TaskItem({
   }
 
   return (
-    <div className="flex gap-2 items-center relative">
+    <div className="flex gap-2 items-center relative cursor-pointer" onClick={handleChange}>
       <button
         type="submit"
-        disabled={goalStatus == "DONE"}
+        disabled={goalStatus == "DONE" || isPending}
         className={`${
           status == "DONE" ? "bg-primary" : "border border-gray-700/50"
         } rounded-[100%] w-5 h-5 flex items-center justify-center disabled:bg-primary/40`}
-        onClick={handleChange}
       >
         {status == "DONE" && <Check size={12} color="white" />}
       </button>

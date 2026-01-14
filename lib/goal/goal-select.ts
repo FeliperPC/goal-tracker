@@ -3,6 +3,7 @@ import { auth } from "@clerk/nextjs/server";
 import { notFound } from "next/navigation";
 
 export async function getAuthenticatedUserGoals() {
+  await new Promise(resolve=>setInterval(resolve,5000))
   const { userId } = await auth();
   if (!userId) {
     return [];

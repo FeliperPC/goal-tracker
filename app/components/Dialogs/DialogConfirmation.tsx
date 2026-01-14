@@ -39,13 +39,13 @@ export default function DialogConfirmation({
             <div className="flex justify-end gap-2 font-semibold mt-6 text-sm">
               <button
                 onClick={onClose}
-                className="rounded-2xl px-4 py-2 bg-gray-200 text-gray-800 shadow-lg"
+                className="rounded-2xl px-4 py-2 bg-gray-200 text-gray-800 shadow-lg cursor-pointer"
               >
                 Cancel
               </button>
               <button
                 onClick={onConfirm}
-                className={`${btnConfirmColor} rounded-2xl px-4 py-2 flex items-center gap-2 shadow-lg`}
+                className={`${btnConfirmColor} rounded-2xl px-4 py-2 flex items-center gap-2 shadow-lg cursor-pointer`}
               >
                 {btnConfirmTitle} {Icon && <Icon className="size-4" />}
               </button>

@@ -7,7 +7,7 @@ export default function GoalSectionSkeleton(){
         <Skeleton className="flex-1 h-10 rounded-lg" />
         <Skeleton className="flex-1 h-10 rounded-lg" />
       </div>
-      <div className="grid gap-3">
+      <div className="grid gap-3 lg:grid-cols-3">
         {Array.from({length:3}).map((_,index)=>(
           <div key={index} className="h-28 w-full border border-gray-800/10 rounded-xl py-6 px-3 gap-3 grid">
             <div className="grid gap-2">

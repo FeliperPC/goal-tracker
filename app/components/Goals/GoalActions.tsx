@@ -38,20 +38,20 @@ export default function GoalActions({ goalId }: { goalId: number }) {
   }
 
   function handleEditGoal() {
-    redirect(`dashboard/submit/${goalId}`)
+    redirect(`dashboard/submit/${goalId}`);
   }
 
   return (
     <div className="flex gap-2 justify-end">
       <button
-        className="rounded-xl p-2 shadow-md border border-gray-800/20"
+        className="rounded-xl p-2 shadow-md border border-gray-800/20 cursor-pointer"
         disabled={isPending}
         onClick={handleEditGoal}
       >
         <Pencil className="size-5 text-gray-500" />
       </button>
       <button
-        className="rounded-xl p-2 text-secondary bg-primary/70 shadow-md flex items-center gap-2 border border-(--secondary)/20"
+        className="rounded-xl p-2 text-secondary bg-primary shadow-md flex items-center gap-2 border border-(--secondary)/20 cursor-pointer"
         disabled={isPending}
         onClick={handlefinishGoalAction}
       >
@@ -65,7 +65,7 @@ export default function GoalActions({ goalId }: { goalId: number }) {
         )}
       </button>
       <button
-        className="rounded-xl p-2  bg-red-500/20 shadow-md text-red-600 flex items-center gap-2 border border-red-500/20"
+        className="rounded-xl p-2  bg-red-500/20 shadow-md text-red-600 flex items-center gap-2 border border-red-500/20 cursor-pointer"
         disabled={isPending}
         onClick={handleDeleteGoal}
       >
@@ -94,7 +94,7 @@ export default function GoalActions({ goalId }: { goalId: number }) {
           <h2 className={`text-xl font-semibold`}>
             {action == "delete" ? "Delete goal" : "Finish goal"}
           </h2>
-          <button onClick={() => setIsOpen(false)}>
+          <button onClick={() => setIsOpen(false)} className="cursor-pointer">
             <X />
           </button>
         </div>
