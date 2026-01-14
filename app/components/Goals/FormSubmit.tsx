@@ -230,7 +230,7 @@ export default function GoalSubmit({ goal }: { goal?: Goal }) {
                           <div className="flex items-center gap-2">
                             <Checkbox
                               id="task"
-                              className="size-6 border border-primary/50"
+                              className="size-6 border border-primary/50 cursor-pointer"
                               checked={task.status == "DONE"}
                               onClick={() => handleTaskStatusChange(index)}
                               value={task.status}
