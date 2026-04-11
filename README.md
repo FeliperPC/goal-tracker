@@ -1,36 +1,111 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Goal Tracker
+
+A full-stack goal management application built with Next.js 16. Create goals, break them into tasks, and track your progress with an intuitive dashboard.
+
+## Features
+
+- **Authentication** -- User sign-in/sign-up powered by Clerk
+- **Goal Management** -- Create, edit, delete, and mark goals as done
+- **Task Tracking** -- Break goals into tasks with individual TODO/DONE status
+- **Progress Bar** -- Visual progress indicator per goal based on completed tasks
+- **Daily Inspiration** -- Displays a daily motivational quote from ZenQuotes API
+- **Goals Overview** -- Summary badges showing how many goals are to-do vs. done
+- **Responsive Design** -- Mobile-first layout with desktop enhancements
+- **Animations** -- Smooth transitions using Framer Motion
+
+## Tech Stack
+
+| Layer        | Technology                            |
+| ------------ | ------------------------------------- |
+| Framework    | Next.js 16 (App Router, React 19)    |
+| Language     | TypeScript                            |
+| Database     | PostgreSQL                            |
+| ORM          | Prisma 7                              |
+| Auth         | Clerk                                 |
+| Styling      | Tailwind CSS 4                        |
+| UI Components| Radix UI + shadcn/ui                  |
+| Animations   | Framer Motion                         |
+| Validation   | Zod 4                                 |
+| State        | Zustand                               |
+| Notifications| Sonner (toast)                        |
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js 18+
+- PostgreSQL database
+- Clerk account (for authentication keys)
+
+### Installation
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/<your-username>/goal-tracker.git
+cd goal-tracker
+```
+
+2. Install dependencies:
+
+```bash
+npm install
+```
+
+3. Set up environment variables -- create a `.env` file in the root:
+
+```env
+DATABASE_URL="postgresql://user:password@localhost:5432/goal_tracker"
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_...
+CLERK_SECRET_KEY=sk_...
+```
+
+4. Generate the Prisma client and apply migrations:
+
+```bash
+npx prisma migrate dev
+```
+
+5. Start the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+goal-tracker/
+├── app/
+│   ├── (core)/schemas/      # Zod validation schemas
+│   ├── components/          # UI components (Goals, Tasks, Home, Skeletons)
+│   ├── dashboard/           # Dashboard pages (main view + goal submit form)
+│   ├── sign-in/             # Clerk sign-in page
+│   └── utils/               # Helper utilities
+├── components/ui/           # shadcn/ui primitives
+├── lib/
+│   ├── goal/                # Goal server actions & queries
+│   ├── task/                # Task server actions & queries
+│   └── prisma.ts            # Prisma client singleton
+├── prisma/
+│   └── schema.prisma        # Database schema
+└── types/                   # Shared TypeScript types
+```
 
-## Learn More
+## Database Schema
 
-To learn more about Next.js, take a look at the following resources:
+The app uses two main models:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Goal** -- has a name, description, status (TODO/DONE), and belongs to a user
+- **Task** -- belongs to a goal, has a name and status (TODO/DONE); deleted in cascade with its goal
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Scripts
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+| Command           | Description                          |
+| ----------------- | ------------------------------------ |
+| `npm run dev`     | Start development server             |
+| `npm run build`   | Generate Prisma client & build       |
+| `npm run start`   | Start production server              |
+| `npm run lint`    | Run ESLint                           |
